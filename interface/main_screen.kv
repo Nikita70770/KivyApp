@@ -1,0 +1,347 @@
+#:import MainScreen view.MainWindow
+
+############################################# Динамические классы #############################################
+
+# Виджеты, задающие цвета элементам
+###################################
+
+# Задний фон главного экрана
+<MainBackgroundColor@Widget>:
+    canvas.before:
+        Color:
+            rgba: (255, 255, 255, 1)
+        Rectangle:
+            pos: root.pos
+            size: root.size
+# Задний фон внешней ячейки
+<ExternalBackgroundCell@Widget>:
+    canvas.before:
+        Color:
+            rgba: (217/255, 217/255, 217/255, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [6, 6, 0, 0]
+
+# Текстовые поля
+<MDLabelCountObjects@MDLabel>:
+    id: label_count_objects
+    text_size: self.size
+    halign: "center"
+    valign: "bottom"
+    color: (98/255, 98/255, 98/255, 1)
+
+<MDLabelTypeService@MDLabel>:
+    id: label_type_service
+    text_size: self.size
+    halign: "center"
+    valign: "top"
+    color: (98/255, 98/255, 98/255, 1)
+
+# Кнопки
+<ButtonGetObjects@Button>:
+    id: btn_type_service
+    opacity: 0
+
+###########################################################################################################
+
+<MainScreen>:
+    name: "main_screen"
+    MainBackgroundColor:
+    BoxLayout:
+        id: main
+        orientation: "vertical"
+        padding: [35]
+        spacing: 40
+
+        BoxLayout:
+            id: header
+            orientation: "horizontal"
+#            size_hint_y: 0.05
+#            size_hint_y: None
+            size_hint_max_y: 70
+            spacing: 30
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_x: None
+
+                Image:
+                    source: "assets/img/logo.png"
+                    allow_stretch: True
+
+            BoxLayout:
+                orientation: "vertical"
+
+                TextInput:
+                    id: search_textInput
+                    padding: [20]
+                    hint_text: "Поиск и фильтр"
+                    hint_text_color: (98/255, 98/255, 98/255, 1)
+                    font_size: 24
+                    cursor_color: (0, 0, 0, 1)
+                    background_color: [0, 0, 0, 0]
+                    background_normal: ""
+                    # рамка для TextInput
+                    canvas.after:
+                        Color:
+                            rgba: 217/255, 217/255, 217/255, 1
+                        Line:
+                            width: 1.5
+                            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
+
+
+        BoxLayout:
+            id: content
+            orientation: "horizontal"
+            spacing: 30
+
+            StackLayout:
+                id: content_left_column
+                orientation: "lr-tb"
+                size_hint_x: None
+
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+
+                    Button:
+                        id: btn_add_object
+                        pos_hint: { "center_x": 0.5 }
+                        background_normal: ""
+                        background_color: 0, 0, 0, 0
+                        Image:
+                            size_hint: (None, None)
+                            size: (80, 80)
+                            source: "assets/img/btn_plus.png"
+                            center_x: self.parent.center_x
+                            center_y: self.parent.center_y
+                            canvas.before:
+                                Color:
+                                    rgba: 217/255, 217/255, 217/255, 1
+                                Line:
+                                    width: 1.5
+                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
+            BoxLayout:
+                id: content_right_column
+                orientation: "vertical"
+
+                GridLayout:
+                    id: grid_layout_services
+                    rows: 1
+                    cols: 6
+                    size_hint_y: 0.2
+                    AnchorLayout:
+                        id: cell_service_0
+                        anchor_y: "center"
+                        # задний фон ячейки
+                        ExternalBackgroundCell:
+                        BoxLayout:
+#                            size_hint_y: None
+                            id: service_text_0
+                            orientation: "vertical"
+                            size_hint: (0.985, 0.965)
+                            canvas.before:
+                                Color:
+                                    rgba: (255, 255, 255, 1)
+#                                    rgba: (55/255, 55/255, 55/255, 1)
+                                Rectangle:
+                                    pos: self.pos
+                                    size: self.size
+                            MDLabelCountObjects:
+                                text: "95"
+                                font_size: "32sp"
+                                color: (247/255, 2/255, 9/255, 1)
+                            MDLabelTypeService:
+                                text: "объектов"
+                                font_size: "14sp"
+                                color: (0, 0, 0, 1)
+                        ButtonGetObjects:
+                            on_press:
+                                root.selected_objects(grid_layout_services, "service_text_0", "Все объекты")
+
+                    AnchorLayout:
+                        id: cell_service_1
+                        anchor_y: "center"
+                        # задний фон ячейки
+                        ExternalBackgroundCell:
+                        BoxLayout:
+#                            size_hint_y: None
+                            id: service_text_1
+                            orientation: "vertical"
+                            canvas.before:
+                                Color:
+                                    rgba: (255, 255, 255, 1)
+#                                    rgba: (55/255, 55/255, 55/255, 1)
+                                Rectangle:
+                                    pos: self.pos
+                                    size: self.size
+#                            spacing: 15
+                            MDLabelCountObjects:
+                                text: "55"
+                                font_size: "32sp"
+                            MDLabelTypeService:
+                                text: "обследование \nконструкций"
+                                font_size: "14sp"
+                        ButtonGetObjects:
+                            on_press:
+                                root.selected_objects(grid_layout_services, "service_text_1", "Обследование конструкций")
+
+                    AnchorLayout:
+                        id: cell_service_2
+                        anchor_y: "center"
+                        # задний фон ячейки
+                        ExternalBackgroundCell:
+                        BoxLayout:
+#                            size_hint_y: None
+                            id: service_text_2
+                            orientation: "vertical"
+#                            spacing: 15
+                            canvas.before:
+                                Color:
+                                    rgba: (255, 255, 255, 1)
+#                                    rgba: (55/255, 55/255, 55/255, 1)
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                            MDLabelCountObjects:
+                                text: "12"
+                                font_size: "32sp"
+                            MDLabelTypeService:
+                                text: "судебная и досудебная экспертизы"
+                                font_size: "14sp"
+                        ButtonGetObjects:
+                            on_press:
+                                root.selected_objects(grid_layout_services, "service_text_2", "Судебная и досудебная экспертизы")
+
+                    AnchorLayout:
+                        id: cell_service_3
+                        anchor_y: "center"
+                        # задний фон ячейки
+                        ExternalBackgroundCell:
+                        BoxLayout:
+                            id: service_text_3
+#                            size_hint_y: None
+                            orientation: "vertical"
+#                            spacing: 15
+                            canvas.before:
+                                Color:
+                                    rgba: (255, 255, 255, 1)
+#                                    rgba: (55/255, 55/255, 55/255, 1)
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                            MDLabelCountObjects:
+                                text: "8"
+                                font_size: "32sp"
+                            MDLabelTypeService:
+                                text: "независимая \nэкспертиза"
+                                font_size: "14sp"
+                        ButtonGetObjects:
+                            on_press:
+                                root.selected_objects(grid_layout_services, "service_text_3", "Независимая экспертиза")
+
+                    AnchorLayout:
+                        id: cell_service_4
+                        anchor_y: "center"
+                        # задний фон ячейки
+                        ExternalBackgroundCell:
+                        BoxLayout:
+                            id: service_text_4
+#                            size_hint_y: None
+                            orientation: "vertical"
+#                            spacing: 15
+                            canvas.before:
+                                Color:
+                                    rgba: (255, 255, 255, 1)
+#                                    rgba: (55/255, 55/255, 55/255, 1)
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                            MDLabelCountObjects:
+                                text: "15"
+                                font_size: "32sp"
+                            MDLabelTypeService:
+                                text: "заключения \nо соответсвтии"
+                                font_size: "14sp"
+                        ButtonGetObjects:
+                            on_press:
+                                root.selected_objects(grid_layout_services, "service_text_4", "Заключения о соответсвтии")
+
+                    AnchorLayout:
+                        id: cell_service_5
+                        anchor_y: "center"
+                        Widget:
+                            #граница ячейки
+                            canvas.before:
+                                Color:
+#                                    rgba: (255, 255, 255, 1)
+                                    rgba: (217/255, 217/255, 217/255, 1)
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [6, 6, 0, 0]
+                        BoxLayout:
+                            id: service_text_5
+#                            size_hint_y: None
+                            orientation: "vertical"
+#                            spacing: 15
+                            canvas.before:
+                                Color:
+                                    rgba: (255, 255, 255, 1)
+#                                    rgba: (55/255, 55/255, 55/255, 1)
+                                Rectangle:
+                                    size: self.size
+                                    pos: self.pos
+                            MDLabelCountObjects:
+                                text: "5"
+                                font_size: "32sp"
+                            MDLabelTypeService:
+                                text: "обмерные работы"
+                                font_size: "14sp"
+                        ButtonGetObjects:
+                            on_press:
+                                root.selected_objects(grid_layout_services, "service_text_5", "Обмерные работы")
+
+                AnchorLayout:
+                    id: content_objects
+                    anchor_y: "top"
+                    canvas.before:
+                        Color:
+                            rgba: (217/255, 217/255, 217/255, 1)
+                        RoundedRectangle:
+                            pos: (self.pos[0], self.pos[1] + 3)
+                            size: self.size
+                            radius: [0, 6, 6, 6]
+
+                    # Виджет скрывающая зазор между ячейками и карточками
+                    BoxLayout:
+                        id: hide_area_layout
+                        size_hint: (None, None)
+                        Widget:
+                            canvas.before:
+                                Color:
+                                    rgba: (255, 255, 255, 1)
+#                                    rgba: (1, 0, 0, 1)
+                                Rectangle:
+                                    pos: (cell_service_0.pos[0] + 3, cell_service_0.pos[1] * 0.95)
+                                    size: (service_text_0.size[0], service_text_0.size[1] / 2.5)
+
+                    BoxLayout:
+                        id: layout
+                        orientation: "vertical"
+                        size_hint: (None, None)
+                        width: (self.parent.width - 6)
+                        height: (self.parent.height - 6)
+                        canvas.before:
+                            Color:
+                                rgba: (255, 255, 255, 1)
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                                size: (self.size[0], self.size[1])
+                        MDLabel:
+                            id: label_name_service
+                            halign: "center"
+                            valign: "center"
+                            text: "Все карточки"
