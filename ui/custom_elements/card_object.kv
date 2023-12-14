@@ -1,0 +1,234 @@
+######################################################### Переменные ################################################
+# Пробелы
+#:set spacing_between_rows dp(10)
+#:set spacing_between_blocks dp(1)
+
+# Внутренние отступы
+#:set padding_card dp(10)
+
+# Размеры шрифта
+#:set fz_label sp(12)
+
+############################################# Динамические классы #############################################
+
+# Тексты карточки
+<LabelCard@MDLabel>:
+    font_size: fz_label
+    text_size: self.width, None
+    size_hint: 1, None
+    height: self.texture_size[1]
+
+# Изображение пользователя
+<ImageUser@Image>:
+    size_hint: (None, None)
+    size: self.texture_size
+
+################################################################################################################
+
+<CardObject>:
+    orientation: 'vertical'
+    size_hint: (0.23, None)
+    height: card_content.height
+#    size_hint: (0.23, 1)
+#    height: dp(395)
+#    size: dp(410), dp(395)
+    BoxLayout:
+        id: card_content
+        orientation: "vertical"
+        size_hint_y: None
+        height: card_container.height + (2 * padding_card)
+        padding: padding_card
+        # закругленная рамка карточки
+        canvas.before:
+            Color:
+                rgba: (0, 0, 0, 1)
+            Line:
+                width: 1.5
+                rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(6))
+        BoxLayout:
+            id: card_container
+            orientation: "vertical"
+            size_hint_y: None
+            height: grid_blocks.height
+            MDGridLayout:
+                id: grid_blocks
+                rows: 3
+                cols: 1
+                spacing: spacing_between_blocks
+                size_hint_y: None
+                height: (top_block.height + middle_block.height + bottom_block.height) + (len(grid_blocks.children) - 1) * spacing_between_blocks
+                canvas.before:
+                    Color:
+                        rgba: (217/255, 217/255, 217/255, 1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+#####################################################################################################################
+                                                        # Верхняя часть карточки
+                MDBoxLayout:
+                    id: top_block
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: top_block_grid_layout.height
+                    md_bg_color: (255/255, 255/255, 255/255, 1)
+                    GridLayout:
+                        id: top_block_grid_layout
+                        rows: 4
+                        cols: 1
+                        spacing: spacing_between_rows
+                        size_hint_y: None
+                        height:
+                            row1.height + row2.height + row3.height + row4.height + (len(top_block_grid_layout.children) * spacing_between_rows)
+                        MDBoxLayout:
+                            id: row1
+                            size_hint_y: None
+                            adaptive_height: True
+                            orientation: "horizontal"
+                            # Адрес
+                            LabelCard:
+                                id: labl_address
+                                text: "г. Москва, ул. Автозаводская д. 19, к.1"
+                            LabelCard:
+                                id: labl_object_id
+                                pos_hint: {"right": 1, "center_y": 0.5}
+                                size_hint: (0.15, None)
+                                text: "#8"
+                                halign: "right"
+                                valign: "top"
+                        # Дата создания
+                        MDBoxLayout:
+                            id: row2
+                            size_hint_y: None
+                            adaptive_height: True
+                            orientation: "horizontal"
+                            LabelCard:
+                                id: labl_date_creation
+                                valign: "top"
+                                text: "Дата создания:"
+                            LabelCard:
+                                id: labl_val_date_creation
+                                valign: "top"
+                                halign: "right"
+                                text: "30/07/2023"
+                        # Ответственный
+                        MDBoxLayout:
+                            id: row3
+                            size_hint_y: None
+                            adaptive_height: True
+                            orientation: "horizontal"
+                            LabelCard:
+                                id: labl_responsible
+                                valign: "top"
+                                text: "Ответственный:"
+                                height: layout_responsible.height
+                            RelativeLayout:
+                                id: layout_responsible
+                                size_hint: (0.2, None)
+                                height: img_responsible.height
+                                ImageUser:
+                                    id: img_responsible
+                                    pos_hint: { "right": 1, "top": 1 }
+                                    source: "assets/img/user32.png"
+                        # Участники
+                        MDBoxLayout:
+                            id: row4
+                            size_hint_y: None
+                            adaptive_height: True
+                            orientation: "horizontal"
+                            LabelCard:
+                                id: labl_participants
+                                valign: "top"
+                                text: "Участники:"
+                                height: grid_layout_participants.height
+                            RelativeLayout:
+                                id: layout_participants
+                                size_hint_x: 0.4
+                                size_hint_y: None
+                                height: grid_layout_participants.height
+                                MDGridLayout:
+                                    id: grid_layout_participants
+                                    rows: 1
+                                    cols: 4
+                                    pos_hint: { "right": 1, "top": 1 }
+                                    size_hint: (None, None)
+                                    adaptive_width: True
+                                    height: img_participant.size[1]
+                                    spacing: dp(8)
+                                    ImageUser:
+                                        id: img_participant
+                                        source: "assets/img/user32.png"
+                                    ImageUser:
+                                        id: img_participant
+                                        source: "assets/img/user32.png"
+                                    ImageUser:
+                                        id: img_participant
+                                        source: "assets/img/user32.png"
+                                    ImageUser:
+                                        id: img_participant
+                                        source: "assets/img/user32.png"
+#####################################################################################################################
+                                                            # Строка по центру
+                MDBoxLayout:
+                    id: middle_block
+                    orientation: "vertical"
+                    adaptive_height: True
+                    md_bg_color: (255/255, 255/255, 255/255, 1)
+                    LabelCard:
+                        id: labl_departure_dates
+                        text: "Даты выезда:"
+                    MDGridLayout:
+                        rows: 1
+                        cols: 2
+                        size_hint: (0.6, None)
+                        adaptive_height: True
+                        LabelCard:
+                            id: labl_val_departure_dates
+                            line_height: 1.5
+                            text: "11/07/2023\n18/07/2023\n25/07/2023"
+                        LabelCard:
+                            id: labl_val_departure_dates
+                            line_height: 1.5
+                            text: "11/07/2023\n18/07/2023\n25/07/2023"
+######################################################################################################################
+                                                        # Строка нижняя
+                MDBoxLayout:
+                    id: bottom_block
+                    size_hint_y: None
+                    height: bottom_block_left.height
+                    orientation: "horizontal"
+                    md_bg_color: (255/255, 255/255, 255/255, 1)
+                    MDBoxLayout:
+                        id: bottom_block_left
+                        size_hint_y: None
+                        adaptive_height: True
+                        orientation: "vertical"
+                        pos_hint: {"x": 0, "top": 1}
+                        LabelCard:
+                            id: labl_contact
+                            text: "Контакт:"
+                        LabelCard:
+                            id: labl_val_full_name
+                            text: "Ирина Владимировна Колосова"
+                        LabelCard:
+                            id: labl_val_mail_and_phone
+                            line_height: 1.25
+                            text: "895645821@mail.ru\n8(999)452-56-56"
+                        MDSeparator:
+                            height: "1dp"
+                            md_bg_color: (217/255, 217/255, 217/255, 1)
+                        LabelCard:
+                            id: labl_status
+                            text: "Статус: В работе"
+                        LabelCard:
+                            id: labl_contract_number
+                            text: "№ Договора: ТО-12/01/2023"
+                    RelativeLayout:
+                        BoxLayout:
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            size_hint: (0.92, 0.89)
+                            orientation: "vertical"
+                            Image:
+                                id: img_building
+                                fit_mode: "cover"
+                                source: "assets/img/building/building1.jpg"

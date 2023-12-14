@@ -1,0 +1,185 @@
+############################################# Переменные #####################################################
+# Пробелы
+#:set spacing_between_rows dp(10)
+#:set popup_spacing dp(20)
+
+# Внутренние отступы
+#:set popup_padding dp(15)
+#:set padding_btn [dp(15), dp(5)]
+
+#Размеры шрифтов
+#:set label_fz sp(12)
+#:set text_input_fz sp(10)
+
+###############################################################################################################
+
+############################################# Динамические классы #############################################
+
+<TextLabel@MDLabel>:
+    pos_hint: {"x": 0, "center_y": 0.5}
+    size_hint: (None, None)
+    font_size: label_fz
+    color: (255, 255, 255, 1)
+#    md_bg_color: (0, 0.7, 0, 1)
+
+<Btn@Button>
+    size_hint: (None, None)
+    background_normal: ""
+    background_color: (0, 0, 0, 0)
+
+<InputData@TextInput>:
+#    padding: [20]
+#    hint_text: "Поиск и фильтр"
+#    hint_text_color: (98/255, 98/255, 98/255, 1)
+    font_size: text_input_fz
+    cursor_color: (0, 0, 0, 1)
+    background_color: [0, 0, 0, 0]
+    background_normal: ""
+    # рамка для TextInput
+    canvas.after:
+        Color:
+            rgba: 217/255, 217/255, 217/255, 1
+        Line:
+            width: 1.5
+            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
+
+########################################################################################################
+
+<AddObjectPopup>:
+    id: add_object_popup
+    size_hint: (0.49, 0.58)
+    background_color: (0, 0, 0, 0)
+    BoxLayout:
+        orientation: "horizontal"
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: (0.97, 0.96)
+            spacing: popup_spacing
+            padding: popup_padding
+            canvas.before:
+                Color:
+                    rgba: (255, 255, 255, 1)
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [6]
+            BoxLayout:
+                orientation: "vertical"
+                GridLayout:
+                    id: grid_layout_popup
+                    rows: 12
+                    cols: 1
+                    spacing: spacing_between_rows
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "Наименование"
+                        InputData:
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "Тип услуги"
+                        InputData:
+                            id: inpt_choose_type_service
+                            on_focus: if self.focus: root.type_service_menu_open()
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "Адрес объекта"
+                        InputData:
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "ФИО заказчика"
+                        InputData:
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "Телефон"
+                        InputData:
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "Почта"
+                        InputData:
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "Ответственный"
+                        InputData:
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "Участники"
+                        InputData:
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "Номер договора"
+                        InputData:
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "Статус"
+                        InputData:
+                            id: inpt_choose_status
+                            on_focus: if self.focus: root.status_menu_open()
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "Дата выезда"
+                        InputData:
+                    BoxLayout:
+                        orientation: "horizontal"
+                        TextLabel:
+                            size: self.texture_size
+                            text_size: (None, None)
+                            text: "Фото объекта"
+                        InputData:
+            Btn:
+                pos_hint: { "center_x": 0.5, "center_y": 0.5 }
+                padding: padding_btn
+                size: self.texture_size
+                text: "Сохранить"
+                font_size: label_fz
+                canvas.before:
+                    Color:
+                        rgba: (0, 0, 0, 1)
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [6, ]
+        Btn:
+            pos_hint: {"x": 0, "top": 1}
+            width: img_close_popup.size[0]
+            height: img_close_popup.size[1]
+            on_press: root.close_popup()
+            Image:
+                id: img_close_popup
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size_hint: (None, None)
+                size: self.texture_size
+                source: "assets/img/close_popup.png"

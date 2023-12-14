@@ -1,19 +1,17 @@
-from view import MainWindow
-
 import os
 import sys
-from os.path import dirname
 
 from kivy.core.window import Window
 from kivy.resources import resource_add_path
 from kivymd.app import MDApp
 from kivy.lang.builder import Builder
 
+Builder.load_file(os.path.dirname(os.path.abspath(__file__)) + '/ui/main_screen.kv')
 
 class MosApplication(MDApp):
     def build(self):
-        return Builder.load_file(os.path.join(dirname(__file__), 'interface\main.kv'))
-
+        pathFile = os.path.dirname(os.path.abspath(__file__)) + '/ui/main.kv'
+        return Builder.load_file(pathFile)
 
 if __name__ == "__main__":
     Window.maximize()

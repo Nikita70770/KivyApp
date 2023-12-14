@@ -1,4 +1,6 @@
-#:import MainScreen view.MainWindow
+############################################# Импорт файлов #############################################
+#:import MainScreen view.main_page.main_window
+#:import ScrollEffect kivy.effects.scroll.ScrollEffect
 
 ############################################# Динамические классы #############################################
 
@@ -110,6 +112,7 @@
                         pos_hint: { "center_x": 0.5 }
                         background_normal: ""
                         background_color: 0, 0, 0, 0
+                        on_press: root.btn_add_object_press()
                         Image:
                             size_hint: (None, None)
                             size: (80, 80)
@@ -271,6 +274,12 @@
                     AnchorLayout:
                         id: cell_service_5
                         anchor_y: "center"
+#                        canvas.after:
+#                            Color:
+#                                rgba: (255, 255, 255, 1)
+#                            Rectangle:
+#                                pos: self.pos
+#                                size: self.size
                         Widget:
                             #граница ячейки
                             canvas.before:
@@ -283,13 +292,10 @@
                                     radius: [6, 6, 0, 0]
                         BoxLayout:
                             id: service_text_5
-#                            size_hint_y: None
                             orientation: "vertical"
-#                            spacing: 15
                             canvas.before:
                                 Color:
                                     rgba: (255, 255, 255, 1)
-#                                    rgba: (55/255, 55/255, 55/255, 1)
                                 Rectangle:
                                     size: self.size
                                     pos: self.pos
@@ -305,16 +311,16 @@
 
                 AnchorLayout:
                     id: content_objects
-                    anchor_y: "top"
+                    anchor_y: "center"
+                    padding: dp(1.5)
                     canvas.before:
                         Color:
                             rgba: (217/255, 217/255, 217/255, 1)
                         RoundedRectangle:
-                            pos: (self.pos[0], self.pos[1] + 3)
+                            pos: self.pos
                             size: self.size
                             radius: [0, 6, 6, 6]
-
-                    # Виджет скрывающая зазор между ячейками и карточками
+                    # Виджет скрывающий зазор между ячейками и карточками
                     BoxLayout:
                         id: hide_area_layout
                         size_hint: (None, None)
@@ -322,26 +328,36 @@
                             canvas.before:
                                 Color:
                                     rgba: (255, 255, 255, 1)
-#                                    rgba: (1, 0, 0, 1)
                                 Rectangle:
                                     pos: (cell_service_0.pos[0] + 3, cell_service_0.pos[1] * 0.95)
                                     size: (service_text_0.size[0], service_text_0.size[1] / 2.5)
-
                     BoxLayout:
-                        id: layout
                         orientation: "vertical"
-                        size_hint: (None, None)
-                        width: (self.parent.width - 6)
-                        height: (self.parent.height - 6)
+                        padding: dp(15)
                         canvas.before:
                             Color:
                                 rgba: (255, 255, 255, 1)
                             Rectangle:
                                 pos: self.pos
                                 size: self.size
-                                size: (self.size[0], self.size[1])
-                        MDLabel:
-                            id: label_name_service
-                            halign: "center"
-                            valign: "center"
-                            text: "Все карточки"
+                        MDScrollView:
+                            id: scroll_view
+                            bar_width: 0
+                            do_scroll_x: False
+                            effect_cls: ScrollEffect
+                            canvas.before:
+                                Color:
+                                    rgba: (255, 255, 255, 1)
+                                Rectangle:
+                                    pos: self.pos
+                                    size: self.size
+                            on_scroll_stop:
+                                root.scroll_direction(self.scroll_y)
+                            MDGridLayout:
+                                id: gridlayout_cards
+                                rows: 3
+                                cols: 3
+                                padding: dp(5)
+                                size_hint_y: None
+                                adaptive_height: True
+                                spacing: dp(20)
