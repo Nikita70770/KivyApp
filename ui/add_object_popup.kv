@@ -1,5 +1,6 @@
 ############################################# Переменные #####################################################
 # Пробелы
+#:set spacing_between_participant dp(5)
 #:set spacing_between_rows dp(10)
 #:set popup_spacing dp(20)
 
@@ -14,13 +15,15 @@
 ###############################################################################################################
 
 ############################################# Динамические классы #############################################
-
 <TextLabel@MDLabel>:
-    pos_hint: {"x": 0, "center_y": 0.5}
     size_hint: (None, None)
     font_size: label_fz
-    color: (255, 255, 255, 1)
-#    md_bg_color: (0, 0.7, 0, 1)
+
+<ParticipantLabel@MDLabel>:
+    padding: [dp(3), dp(0)]
+    size_hint: (None, None)
+    font_size: label_fz
+    text: ""
 
 <Btn@Button>
     size_hint: (None, None)
@@ -28,20 +31,25 @@
     background_color: (0, 0, 0, 0)
 
 <InputData@TextInput>:
-#    padding: [20]
-#    hint_text: "Поиск и фильтр"
-#    hint_text_color: (98/255, 98/255, 98/255, 1)
     font_size: text_input_fz
     cursor_color: (0, 0, 0, 1)
     background_color: [0, 0, 0, 0]
     background_normal: ""
-    # рамка для TextInput
+
+<InputDataLayout@RelativeLayout>:
+    # рамка для BoxLayout
     canvas.after:
         Color:
             rgba: 217/255, 217/255, 217/255, 1
         Line:
             width: 1.5
             rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
+
+<InputDataContainer@BoxLayout>:
+    orientation: "horizontal"
+    pos_hint: { "center_x": 0.5, "center_y": 0.5 }
+    size_hint: (0.95, 1)
+#    md_bg_color: (0, 1, 0, 1)
 
 ########################################################################################################
 
@@ -76,88 +84,123 @@
                             size: self.texture_size
                             text_size: (None, None)
                             text: "Наименование"
-                        InputData:
+                        InputDataLayout:
+                            InputDataContainer:
+                                InputData:
                     BoxLayout:
+                        id: type_service_layout
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
                             text_size: (None, None)
                             text: "Тип услуги"
-                        InputData:
-                            id: inpt_choose_type_service
-                            on_focus: if self.focus: root.type_service_menu_open()
+                        InputDataLayout:
+                            InputDataContainer:
+                                InputData:
+                                    id: inpt_type_service
+                                    on_focus:
+                                        if self.focus: root.dropdown_menu_open("Тип услуги", 1, "inpt_type_service")
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
                             text_size: (None, None)
                             text: "Адрес объекта"
-                        InputData:
+                        InputDataLayout:
+                            InputDataContainer:
+                                InputData:
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
                             text_size: (None, None)
                             text: "ФИО заказчика"
-                        InputData:
+                        InputDataLayout:
+                            InputDataContainer:
+                                InputData:
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
                             text_size: (None, None)
                             text: "Телефон"
-                        InputData:
+                        InputDataLayout:
+                            InputDataContainer:
+                                InputData:
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
                             text_size: (None, None)
                             text: "Почта"
-                        InputData:
+                        InputDataLayout:
+                            InputDataContainer:
+                                InputData:
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
                             text_size: (None, None)
                             text: "Ответственный"
-                        InputData:
+                        InputDataLayout:
+                            Button:
+                                id: btn_choose_responsible
+                                opacity: 0
+                                on_release: root.dropdown_menu_open("Ответственный", 1, "box_layout_responsible")
+                            InputDataContainer:
+                                id: box_layout_responsible
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
                             text_size: (None, None)
                             text: "Участники"
-                        InputData:
+                        InputDataLayout:
+                            Button:
+                                id: btn_choose_participant
+                                opacity: 0
+                                on_release: root.dropdown_menu_open("Участники", 4, "box_layout_participant")
+                            InputDataContainer:
+                                id: box_layout_participant
+                                spacing: spacing_between_participant
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
                             text_size: (None, None)
                             text: "Номер договора"
-                        InputData:
+                        InputDataLayout:
+                            InputDataContainer:
+                                InputData:
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
                             text_size: (None, None)
                             text: "Статус"
-                        InputData:
-                            id: inpt_choose_status
-                            on_focus: if self.focus: root.status_menu_open()
+                        InputDataLayout:
+                            InputDataContainer:
+                                InputData:
+                                    id: inpt_choose_status
+                                    on_focus: if self.focus: root.dropdown_menu_open("Статус", 1, "inpt_choose_status")
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
                             text_size: (None, None)
                             text: "Дата выезда"
-                        InputData:
+                        InputDataLayout:
+                            InputDataContainer:
+                                InputData:
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
                             text_size: (None, None)
                             text: "Фото объекта"
-                        InputData:
+                        InputDataLayout:
+                            InputDataContainer:
+                                InputData:
             Btn:
                 pos_hint: { "center_x": 0.5, "center_y": 0.5 }
                 padding: padding_btn
