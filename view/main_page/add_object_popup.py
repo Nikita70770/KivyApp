@@ -2,13 +2,14 @@ import os
 
 import kivy.metrics
 from kivy.clock import Clock
+from kivy.metrics import dp
 from kivy.graphics import RoundedRectangle, Color
 from kivy.lang.builder import Builder
 from kivy.uix.button import Button
 from kivy.uix.modalview import ModalView
 from kivy.uix.textinput import TextInput
-from kivymd.uix.label import MDLabel
 from kivymd.uix.menu import MDDropdownMenu
+from utils.file_manager import FileManager
 
 Builder.load_file(os.getcwd() + '/ui/add_object_popup.kv')
 
@@ -29,34 +30,40 @@ class AddObjectPopup(ModalView):
 
     def initPopup(self, dt):
         self.set_style_popup()
+        self.manager = FileManager()
 
     def set_style_popup(self):
         parent = self.ids["grid_layout_popup"].children
-        maxWidthLabel = max([child.children[1].texture_size[0] for child in parent])
+        max_width_label = max([child.children[1].texture_size[0] for child in parent])
         for child in parent:
             texture_size = child.children[1].texture_size[0]
-            res = (maxWidthLabel - texture_size) + 40
-            child.spacing = kivy.metrics.dp(res * 0.5)
+            res = (max_width_label - texture_size) + 40
+            # child.spacing = kivy.metrics.dp(res * 0.5)
+            child.spacing = res
 
     # Выпадающий список
-    def dropdown_menu_open(self, name_field, max_elems, id):
+    def open_dropdown_menu(self, name_field, max_elems, list_id):
         list_items = self.menu_items[name_field]
-        caller = self.ids[id]
-        print(f"caller = ${caller}")
+        # caller = self.ids[id]
+        print(list_id)
+        caller = self.ids[list_id[0]]
+        element = self.ids[list_id[1]]
         menu_items = [
             {
                 "viewclass": "OneLineListItem",
-                "height": kivy.metrics.dp(36),
+                "height": dp(36),
                 "text": list_items[i],
                 "font_style": "Caption",
-                "on_release": lambda text = list_items[i]: self.menu_callback(caller, text, max_elems)
+                "on_release": lambda text = list_items[i]: self.menu_callback(element, text, max_elems)
             } for i in range(len(list_items))
         ]
         MDDropdownMenu(
             caller = caller,
             items = menu_items,
+            hor_growth = "right",
             position = "bottom",
-            width_mult = len(list_items),
+            max_height = dp(200),
+            width_mult = 4
         ).open()
 
     def menu_callback(self, element, text, max_count_users):
@@ -73,7 +80,7 @@ class AddObjectPopup(ModalView):
         responsible = Button(
             pos_hint = { "x": 0, "center_y": 0.5 },
             size_hint = (None, None),
-            padding = [kivy.metrics.dp(3), kivy.metrics.dp(0)],
+            padding = [dp(3), dp(0)],
             halign = "center", valign = "center",
             text = name,
             font_size = kivy.metrics.sp(11),
@@ -89,9 +96,9 @@ class AddObjectPopup(ModalView):
             )
         responsible.bind(
             texture_size = responsible.setter('size'),
-            pos = lambda *args: self.update_rounded_rect(rounded_rect, responsible),
-            size = lambda *args: self.update_rounded_rect(rounded_rect, responsible),
-            on_release = lambda *args: self.delete_user(element, responsible)
+            pos = lambda *_: self.update_rounded_rect(rounded_rect, responsible),
+            size = lambda *_: self.update_rounded_rect(rounded_rect, responsible),
+            on_release = lambda *_: self.delete_user(element, responsible)
         )
         return responsible
 
@@ -100,9 +107,17 @@ class AddObjectPopup(ModalView):
         if count_users > 0:
             layout.remove_widget(user)
 
+    def choose_img_building(self):
+        self.manager.open_file_manager()
+        print(f"Data file = {self.manager.get_data_file()}")
+
+    def save_data_object(self):
+        self.close_popup()
+
     def update_rounded_rect(self, rounded_rect, button):
         rounded_rect.pos = button.pos
         rounded_rect.size = button.size
 
+    # Закрытие всплывающего окна
     def close_popup(self):
         self.dismiss()

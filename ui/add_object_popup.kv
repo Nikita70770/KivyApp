@@ -55,6 +55,7 @@
 
 <AddObjectPopup>:
     id: add_object_popup
+#    size_hint: (0.55, 0.65)
     size_hint: (0.49, 0.58)
     background_color: (0, 0, 0, 0)
     BoxLayout:
@@ -99,7 +100,7 @@
                                 InputData:
                                     id: inpt_type_service
                                     on_focus:
-                                        if self.focus: root.dropdown_menu_open("Тип услуги", 1, "inpt_type_service")
+                                        if self.focus: root.open_dropdown_menu("Тип услуги", 1, ["type_service_layout", "inpt_type_service"])
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
@@ -137,6 +138,7 @@
                             InputDataContainer:
                                 InputData:
                     BoxLayout:
+                        id: layout_responsible
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
@@ -146,10 +148,11 @@
                             Button:
                                 id: btn_choose_responsible
                                 opacity: 0
-                                on_release: root.dropdown_menu_open("Ответственный", 1, "box_layout_responsible")
+                                on_release: root.open_dropdown_menu("Ответственный", 1, ["layout_responsible", "box_layout_responsible"])
                             InputDataContainer:
                                 id: box_layout_responsible
                     BoxLayout:
+                        id: layout_participant
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
@@ -159,7 +162,7 @@
                             Button:
                                 id: btn_choose_participant
                                 opacity: 0
-                                on_release: root.dropdown_menu_open("Участники", 4, "box_layout_participant")
+                                on_release: root.open_dropdown_menu("Участники", 4, ["layout_participant", "box_layout_participant"])
                             InputDataContainer:
                                 id: box_layout_participant
                                 spacing: spacing_between_participant
@@ -173,6 +176,7 @@
                             InputDataContainer:
                                 InputData:
                     BoxLayout:
+                        id: status_layout
                         orientation: "horizontal"
                         TextLabel:
                             size: self.texture_size
@@ -182,7 +186,7 @@
                             InputDataContainer:
                                 InputData:
                                     id: inpt_choose_status
-                                    on_focus: if self.focus: root.dropdown_menu_open("Статус", 1, "inpt_choose_status")
+                                    on_focus: if self.focus: root.open_dropdown_menu("Статус", 1, ["status_layout", "inpt_choose_status"])
                     BoxLayout:
                         orientation: "horizontal"
                         TextLabel:
@@ -199,14 +203,19 @@
                             text_size: (None, None)
                             text: "Фото объекта"
                         InputDataLayout:
+                            Button:
+                                id: btn_choose_building
+                                opacity: 0
+                                on_release: root.choose_img_building()
                             InputDataContainer:
-                                InputData:
+                                id: box_layout_building
             Btn:
                 pos_hint: { "center_x": 0.5, "center_y": 0.5 }
                 padding: padding_btn
                 size: self.texture_size
                 text: "Сохранить"
                 font_size: label_fz
+                on_release: root.save_data_object()
                 canvas.before:
                     Color:
                         rgba: (0, 0, 0, 1)
