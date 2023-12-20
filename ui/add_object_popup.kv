@@ -74,10 +74,13 @@
                     radius: [6]
             BoxLayout:
                 orientation: "vertical"
-                GridLayout:
+                BoxLayout:
                     id: grid_layout_popup
-                    rows: 12
-                    cols: 1
+                    orientation: "vertical"
+#                GridLayout:
+#                    id: grid_layout_popup
+#                    rows: 12
+#                    cols: 1
                     spacing: spacing_between_rows
                     BoxLayout:
                         orientation: "horizontal"
@@ -206,9 +209,43 @@
                             Button:
                                 id: btn_choose_building
                                 opacity: 0
-                                on_release: root.choose_img_building()
+                                on_release: root.choose_img_building(["container_building", "labl_file_name"])
                             InputDataContainer:
                                 id: box_layout_building
+                                MDBoxLayout:
+                                    id: container_building
+                                    orientation: "horizontal"
+                                    spacing: dp(5)
+                                    opacity: 0
+                                    Label:
+                                        id: labl_file_name
+                                        pos_hint: {"x": 0, "center_y": 0.5}
+                                        size_hint: (None, None)
+                                        size: self.texture_size
+                                        text: ""
+                                        font_size: sp(12)
+                                        color: (0, 0, 0, 1)
+                                    Button:
+                                        pos_hint: {"x": 0, "center_y": 0.5}
+                                        size_hint: (None, None)
+                                        width: img_remove.size[0]
+                                        height: img_remove.size[1]
+                                        background_normal: ""
+                                        on_release: root.delete_elem_building(["container_building", "labl_file_name"])
+#                                        canvas.before:
+#                                            Color:
+#                                                rgba: (0, 1, 0, 1)
+#                                            RoundedRectangle:
+#                                                pos: self.pos
+#                                                size: self.size
+#                                                radius: [6, ]
+                                        Image:
+                                            id: img_remove
+                                            center_x: self.parent.center_x
+                                            center_y: self.parent.center_y
+                                            size_hint: (None, None)
+                                            size: self.texture_size
+                                            source: "assets/img/remove_elem32.png"
             Btn:
                 pos_hint: { "center_x": 0.5, "center_y": 0.5 }
                 padding: padding_btn

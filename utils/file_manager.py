@@ -1,26 +1,36 @@
 import os
 
-from kivymd.uix.filemanager import MDFileManager
+from kivy.properties import ListProperty
 from plyer import filechooser
 
 
 class FileManager:
+    selection = []
 
     def __init__(self, **kwargs):
         super(FileManager, self).__init__(**kwargs)
+        # self.data_file = ""
+        # self.init_file_manager()
+
+    # def init_file_manager(self):
+    #     self.data_file = ""
+    # self.manager_open = False
 
     def open_file_manager(self):
         filechooser.open_file(
-            on_selection = self.select_path
+            on_selection=self.select_path
         )
+        # self.manager_open = True
 
     def select_path(self, path):
-        # self.set_data_file(os.path.basename(path), path)
-        # self.data_file = {
-        #     "name_file": os.path.basename(path),
-        #     "path_to_file": path
-        # }
-        self.data_file = path
+        if path:
+            self.selection = path
+            print(f"selection = {self.selection}")
 
     def get_data_file(self):
-        return self.data_file
+        if len(self.selection) > 0:
+            return os.path.basename(self.selection[0])
+
+    def clear_data(self):
+        if not len(self.selection) == 0:
+            self.selection.clear()
