@@ -79,6 +79,7 @@ class AddObjectPopup(ModalView):
             halign="center", valign="center",
             text=name,
             font_size=sp(11),
+            font_name="assets/fonts/Montserrat-Regular.ttf",
             color=(0, 0, 0, 1),
             background_color=(0, 0, 0, 0)
         )
@@ -110,57 +111,6 @@ class AddObjectPopup(ModalView):
             if not (count_users == max_count_users):
                 user_elem = self.create_element_user(element, text)
                 element.add_widget(user_elem)
-
-    # def create_element_building(self, container, name_file):
-    #     # Контейнер для элементов
-    #     container_element = container
-    #
-    #     #
-    #     label_building = Label(
-    #         pos_hint={"x": 0, "center_y": 0.5},
-    #         size_hint=(None, None),
-    #         text=name_file,
-    #         font_size=sp(12),
-    #         color=(0, 0, 0, 1)
-    #     )
-    #     label_building.bind(texture_size=label_building.setter("size"))
-    #
-    #     # img_del_building.bind(texture_size=img_del_building.setter("size"))
-    #
-    #     btn_del_building = Button(
-    #         pos_hint={"x": 0, "center_y": 0.5},
-    #         size_hint=(None, None),
-    #         # width=img_del_building.size[0],
-    #         # height=img_del_building.size[1],
-    #         background_color=(0, 1, 0, 0)
-    #     )
-    #     # btn_del_building.width = img_del_building.size[0]
-    #     # btn_del_building.height = img_del_building.size[1]
-    #     btn_del_building.bind(
-    #         on_release=lambda *_: self.delete_elem_building(container_element)
-    #     )
-    #
-    #     img_del_building = Image(size_hint=(None, None), source="assets/img/remove_elem.png")
-    #     # img_del_building.center_x = btn_del_building.center_x
-    #     # img_del_building.center_y = btn_del_building.center_y
-    #     # img_del_building.bind(texture_size=img_del_building.setter("size"))
-    #
-    #     btn_del_building.size_hint = (None, None)
-    #     # btn_del_building.width = img_del_building.size[0]
-    #     # btn_del_building.height = img_del_building.size[1]
-    #
-    #     btn_del_building.add_widget(img_del_building)
-    #
-    #     # container_element.add_widget(label_building)
-    #     container_element.add_widget(btn_del_building)
-    #     with btn_del_building.canvas.before:
-    #         Color(71/255, 17/255, 217/255, 1),
-    #         rounded_rect = RoundedRectangle(
-    #             pos=btn_del_building.pos,
-    #             size=btn_del_building.size,
-    #             radius=[6, ],
-    #         )
-    #     return container_element
 
     def choose_img_building(self, list_ids):
         print(f"list_ids = {list_ids}")

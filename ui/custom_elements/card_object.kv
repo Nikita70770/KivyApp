@@ -9,6 +9,10 @@
 # Размеры шрифта
 #:set fz_label sp(12)
 
+# Шрифты
+#:set Montserrat_Regular "assets/fonts/Montserrat-Regular.ttf"
+#:set Montserrat_Medium "assets/fonts/Montserrat-Medium.ttf"
+
 ############################################# Динамические классы #############################################
 
 # Тексты карточки
@@ -17,6 +21,7 @@
     text_size: self.width, None
     size_hint: 1, None
     height: self.texture_size[1]
+    font_name: Montserrat_Regular
 
 # Изображение пользователя
 <ImageUser@Image>:
@@ -105,7 +110,9 @@
                             LabelCard:
                                 id: labl_date_creation
                                 valign: "top"
-                                text: "Дата создания:"
+                                text: '[b]Дата создания:[/b]'
+                                markup: True
+                                font_name: Montserrat_Medium
                             LabelCard:
                                 id: labl_val_date_creation
                                 valign: "top"
@@ -120,8 +127,9 @@
                             LabelCard:
                                 id: labl_responsible
                                 valign: "top"
-                                text: "Ответственный:"
                                 height: layout_responsible.height
+                                text: "Ответственный:"
+                                font_name: Montserrat_Medium
                             RelativeLayout:
                                 id: layout_responsible
                                 size_hint: (0.2, None)
@@ -139,8 +147,9 @@
                             LabelCard:
                                 id: labl_participants
                                 valign: "top"
-                                text: "Участники:"
                                 height: grid_layout_participants.height
+                                text: "Участники:"
+                                font_name: Montserrat_Medium
                             RelativeLayout:
                                 id: layout_participants
                                 size_hint_x: 0.4
@@ -177,6 +186,7 @@
                     LabelCard:
                         id: labl_departure_dates
                         text: "Даты выезда:"
+                        font_name: Montserrat_Medium
                     MDGridLayout:
                         rows: 1
                         cols: 2
@@ -207,6 +217,7 @@
                         LabelCard:
                             id: labl_contact
                             text: "Контакт:"
+                            font_name: Montserrat_Medium
                         LabelCard:
                             id: labl_val_full_name
                             text: "Ирина Владимировна Колосова"
@@ -220,6 +231,7 @@
                         LabelCard:
                             id: labl_status
                             text: "Статус: В работе"
+                            font_name: Montserrat_Medium
                         LabelCard:
                             id: labl_contract_number
                             text: "№ Договора: ТО-12/01/2023"

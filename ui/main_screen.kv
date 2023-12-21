@@ -5,7 +5,14 @@
 ############################################# Динамические классы #############################################
 
 # Виджеты, задающие цвета элементам
-###################################
+###############################################################################################################
+
+######################################################### Переменные ################################################
+# Шрифты
+#:set Montserrat_Regular "assets/fonts/Montserrat-Regular.ttf"
+#:set Montserrat_Medium "assets/fonts/Montserrat-Medium.ttf"
+#####################################################################################################################
+
 
 # Задний фон главного экрана
 <MainBackgroundColor@Widget>:
@@ -31,6 +38,7 @@
     text_size: self.size
     halign: "center"
     valign: "bottom"
+    font_name: Montserrat_Medium
     color: (98/255, 98/255, 98/255, 1)
 
 <MDLabelTypeService@MDLabel>:
@@ -38,6 +46,7 @@
     text_size: self.size
     halign: "center"
     valign: "top"
+    font_name: Montserrat_Regular
     color: (98/255, 98/255, 98/255, 1)
 
 # Кнопки
@@ -67,20 +76,19 @@
             BoxLayout:
                 orientation: "vertical"
                 size_hint_x: None
-
                 Image:
                     source: "assets/img/logo.png"
                     allow_stretch: True
 
             BoxLayout:
                 orientation: "vertical"
-
                 TextInput:
                     id: search_textInput
                     padding: [20]
                     hint_text: "Поиск и фильтр"
                     hint_text_color: (98/255, 98/255, 98/255, 1)
                     font_size: 24
+                    font_name: Montserrat_Regular
                     cursor_color: (0, 0, 0, 1)
                     background_color: [0, 0, 0, 0]
                     background_normal: ""
@@ -97,16 +105,13 @@
             id: content
             orientation: "horizontal"
             spacing: 30
-
             StackLayout:
                 id: content_left_column
                 orientation: "lr-tb"
                 size_hint_x: None
-
                 BoxLayout:
                     orientation: "vertical"
                     size_hint_y: None
-
                     Button:
                         id: btn_add_object
                         pos_hint: { "center_x": 0.5 }

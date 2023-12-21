@@ -8,6 +8,10 @@
 #:set popup_padding dp(15)
 #:set padding_btn [dp(15), dp(5)]
 
+# Шрифты
+#:set Montserrat_Regular "assets/fonts/Montserrat-Regular.ttf"
+#:set Montserrat_Medium "assets/fonts/Montserrat-Medium.ttf"
+
 #Размеры шрифтов
 #:set label_fz sp(12)
 #:set text_input_fz sp(10)
@@ -18,6 +22,7 @@
 <TextLabel@MDLabel>:
     size_hint: (None, None)
     font_size: label_fz
+    font_name: Montserrat_Medium
 
 <ParticipantLabel@MDLabel>:
     padding: [dp(3), dp(0)]
@@ -32,6 +37,7 @@
 
 <InputData@TextInput>:
     font_size: text_input_fz
+    font_name: Montserrat_Regular
     cursor_color: (0, 0, 0, 1)
     background_color: [0, 0, 0, 0]
     background_normal: ""
@@ -223,8 +229,16 @@
                                         size_hint: (None, None)
                                         size: self.texture_size
                                         text: ""
-                                        font_size: sp(12)
+                                        font_name: Montserrat_Regular
+                                        font_size: sp(11)
                                         color: (0, 0, 0, 1)
+#                                    TextLabel:
+#                                        id: labl_file_name
+#                                        pos_hint: {"x": 0, "center_y": 0.5}
+#                                        size: self.texture_size
+#                                        text: ""
+#                                        font_size: sp(12)
+#                                        color: (0, 0, 0, 1)
                                     Button:
                                         pos_hint: {"x": 0, "center_y": 0.5}
                                         size_hint: (None, None)
