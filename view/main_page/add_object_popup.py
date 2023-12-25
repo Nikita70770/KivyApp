@@ -28,8 +28,9 @@ class AddObjectPopup(ModalView):
         "Статус": ["В работе", "В ожидании", "Завершено"]
     }
 
-    def __init__(self, **kwargs):
-        super(AddObjectPopup, self).__init__(**kwargs)
+    def __init__(self, callback):
+        super(AddObjectPopup, self).__init__()
+        self.handle_close_popup = callback
         Clock.schedule_once(self.initPopup, 0)
 
     def initPopup(self, dt):
@@ -142,6 +143,9 @@ class AddObjectPopup(ModalView):
     def update_rounded_rect(self, rounded_rect, button):
         rounded_rect.pos = button.pos
         rounded_rect.size = button.size
+
+    def on_dismiss(self):
+        self.handle_close_popup(True)
 
     # Закрытие всплывающего окна
     def close_popup(self):

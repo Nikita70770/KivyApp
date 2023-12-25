@@ -116,20 +116,27 @@
                         id: btn_add_object
                         pos_hint: { "center_x": 0.5 }
                         background_normal: ""
-                        background_color: 0, 0, 0, 0
-                        on_press: root.btn_add_object_press()
+                        background_color: (0, 0, 0, 0)
+                        on_press: root.btn_add_object_press(["btn_add_object", "img_plus"])
+                        canvas.before:
+                            Color:
+                                rgba: 217/255, 217/255, 217/255, 1
+                            Line:
+                                width: 1.5
+                                rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
                         Image:
+                            id: img_plus
                             size_hint: (None, None)
                             size: (80, 80)
                             source: "assets/img/btn_plus.png"
                             center_x: self.parent.center_x
                             center_y: self.parent.center_y
-                            canvas.before:
-                                Color:
-                                    rgba: 217/255, 217/255, 217/255, 1
-                                Line:
-                                    width: 1.5
-                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
+#                            canvas.before:
+#                                Color:
+#                                    rgba: 217/255, 217/255, 217/255, 1
+#                                Line:
+#                                    width: 1.5
+#                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
             BoxLayout:
                 id: content_right_column
                 orientation: "vertical"
