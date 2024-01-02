@@ -1,24 +1,19 @@
 import os
 
-import kivy.metrics
 from kivy.clock import Clock
 from kivy.metrics import dp, sp
 from kivy.graphics import RoundedRectangle, Color
 from kivy.lang.builder import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from kivy.uix.image import Image
-from kivy.uix.label import Label
-from kivy.uix.modalview import ModalView
 from kivy.uix.textinput import TextInput
-from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.menu import MDDropdownMenu
 from utils.file_manager import FileManager
 
-Builder.load_file(os.getcwd() + '/ui/add_object_popup.kv')
+Builder.load_file(os.getcwd() + "/ui/add_object.kv")
 
 
-class AddObjectPopup(ModalView):
+class AddObject(BoxLayout):
     menu_items = {
         "Тип услуги": ["Техническое обследование", "Судебная и досудебная экспертизы",
                        "Независимая экспертиза", "Заключения о соответсвтии", "Обмерные работы"],
@@ -29,11 +24,11 @@ class AddObjectPopup(ModalView):
     }
 
     def __init__(self, callback):
-        super(AddObjectPopup, self).__init__()
-        self.handle_close_popup = callback
-        Clock.schedule_once(self.initPopup, 0)
+        super(AddObject, self).__init__()
+        Clock.schedule_once(self.init_popup, 0)
+        self.callback = callback
 
-    def initPopup(self, dt):
+    def init_popup(self, dt):
         self.set_style_popup()
         self.manager = FileManager()
 
@@ -138,15 +133,8 @@ class AddObjectPopup(ModalView):
         print(f"Данные файла = {self.manager.get_data_file()}")
 
     def save_data_object(self):
-        self.close_popup()
+        self.callback()
 
     def update_rounded_rect(self, rounded_rect, button):
         rounded_rect.pos = button.pos
         rounded_rect.size = button.size
-
-    def on_dismiss(self):
-        self.handle_close_popup(True)
-
-    # Закрытие всплывающего окна
-    def close_popup(self):
-        self.dismiss()

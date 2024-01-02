@@ -1,0 +1,118 @@
+#:import AddObject view.screens.main_screen.add_object
+
+<EditBuildingCards>:
+    name: "edit_building_cards"
+    BoxLayout:
+        id: content
+        orientation: "horizontal"
+        spacing: content_spacing
+        MDStackLayout:
+            id: content_left_column
+            orientation: "lr-tb"
+            size_hint_x: None
+            adaptive_width: True
+            Button:
+                id: btn_go_back
+                pos_hint: {"center_x": 0.5, "y": 1}
+                size_hint: (None, None)
+                size: img_go_back.size
+                background_normal: ""
+                background_color: (0, 0, 0, 0)
+                on_press: root.previous_screen()
+                canvas.before:
+                    Color:
+                        rgba: 217/255, 217/255, 217/255, 1
+                    Line:
+                        width: 1.5
+                        rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
+                Image:
+                    id: img_go_back
+                    size_hint: (None, None)
+                    size: (80, 80)
+                    source: "assets/img/arrow_left.png"
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
+        BoxLayout:
+            id: content_right_column
+            orientation: "horizontal"
+#            GridLayout:
+#                id: add_building_plan
+#                rows: 6
+#                cols: 1
+            BoxLayout:
+                orientation: "vertical"
+                pos_hint: { "top": 1 }
+                size_hint_y: None
+                adaptive_height: True
+#                canvas.before:
+#                    Color:
+#                        rgba: (200/255, 200/255, 200/255, 1)
+#                    Rectangle:
+#                        pos: self.pos
+#                        size: self.size
+                MDBoxLayout:
+                    orientation: "horizontal"
+                    size_hint: (0.15, None)
+                    adaptive_height: True
+                    canvas.before:
+                        Color:
+                            rgba: (217/255, 217/255, 217/255, 1)
+                        Line:
+                            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
+                    Widget:
+                        size_hint_x: 0.1
+                    MDBoxLayout:
+                        orientation: "horizontal"
+#                    MDRelativeLayout:
+                        size_hint_y: None
+                        adaptive_height: True
+#                        md_bg_color: (20/255, 200/255, 200/255, 1)
+#                        size_hint_x: 0.5
+#                        size_hint: (None, None)
+#                        adaptive_size: True
+#                        canvas.before:
+#                            Color:
+#                                rgba: (20/255, 200/255, 200/255, 1)
+#                            Rectangle:
+#                                pos: self.pos
+#                                size: self.size
+                        Label:
+                            pos_hint: { "center_y": 0.5 }
+                            size_hint: (None, None)
+                            size: self.texture_size
+                            text: "Планы"
+                            color: (0, 0, 0, 1)
+                        Widget:
+                        Button:
+                            text: " + "
+                            pos_hint: { "right": 1, "center_y": 0.5 }
+                            size_hint: (None, None)
+                            size: self.texture_size
+                            background_normal: ""
+                            background_color: (0, 0, 0, 0)
+                            canvas.before:
+                                Color:
+                                    rgba: (217/255, 217/255, 217/255, 1)
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [6, ]
+            MDBoxLayout:
+                id: edit_object_container
+                size_hint_x: 0.8
+                orientation: "vertical"
+                md_bg_color: (0, 0, 1, 1)
+                MDBoxLayout:
+                    id: img_building_container
+                    pos_hint: { "right": 1 }
+                    size_hint_x: None
+                    size_hint_y: 0.8
+                    padding: [0, dp(30), 0, dp(20)]
+                    md_bg_color: (120/255, 50/255, 0, 1)
+                    Image:
+                        id: img_building
+                        allow_stretch: True
+                        fit_mode: "cover"
+#                        source: "assets/img/building/test.jpeg"
+#                        source: "assets/img/building/test1.jpg"
+                        source: "assets/img/building/building1.jpg"

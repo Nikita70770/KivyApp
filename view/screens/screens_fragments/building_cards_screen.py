@@ -1,22 +1,25 @@
+import os
+
 from kivy.graphics import Color, Rectangle
-from kivy.uix.screenmanager import Screen
+from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.widget import Widget
 
-from view.main_page.custom_elements.card_object import CardObject
-from view.main_page.add_object_popup import AddObjectPopup
+from view.screens.main_screen.add_object_popup import AddObjectPopup
+from view.screens.main_screen.custom_elements.card_object import CardObject
+
+Builder.load_file(os.getcwd() + "/ui/building_cards_screen.kv")
 
 
-class MainScreen(Screen):
+class BuildingCards(Screen):
     currCount = 0
     countCard = 6
     sizeData = 100
     arrIndex = [0] * 2
 
-    # lenGrid = -1
-
     def __init__(self, **kwargs):
-        super(MainScreen, self).__init__(**kwargs)
+        super(BuildingCards, self).__init__(**kwargs)
 
     def on_kv_post(self, base_widget):
         self.initData()
@@ -30,7 +33,7 @@ class MainScreen(Screen):
     def handle_close_popup(self, status_close):
         if status_close:
             self.ids["btn_add_object"].background_color = (0, 0, 0, 0)
-            self.ids["img_plus"].source = "assets/img/btn_plus.png"
+            self.ids["img_plus"].source = "assets/img/plus_48.png"
 
     def initData(self):
         print("Первичная инициализация")
@@ -43,7 +46,7 @@ class MainScreen(Screen):
             self.arrIndex[1] = self.sizeData
         for i in range(self.arrIndex[1]):
             # print(i)
-            self.ids["gridlayout_cards"].add_widget(CardObject(i + 1))
+            self.ids["gridlayout_cards"].add_widget(CardObject((i + 1), self.next_screen))
             # if (i + 1) == self.arrIndex[1]:
             #     print(f"(i + 1) == self.arrIndex[1]")
             #     for j in range(self.arrIndex[1], self.countCard):
@@ -67,7 +70,7 @@ class MainScreen(Screen):
             self.arrIndex[1] += 6
         for i in range(self.arrIndex[0], self.arrIndex[1]):
             print(i)
-            self.ids["gridlayout_cards"].add_widget(CardObject(i + 1))
+            self.ids["gridlayout_cards"].add_widget(CardObject((i + 1), self.next_screen))
 
         if diff <= 2:
             # print(f"self.arrIndex[1] = {self.arrIndex[1]}")
@@ -86,14 +89,15 @@ class MainScreen(Screen):
         id_img_plus = list_id[1]
 
         self.ids[id_btn_plus].background_color = (0, 0, 0, 1)
-        self.ids[id_img_plus].source = "assets/img/plus_click.png"
+        # self.ids[id_img_plus].source = "assets/img/plus_click.png"
+        self.ids[id_img_plus].source = "assets/img/plus_click_48.png"
 
-        popup = AddObjectPopup(callback = self.handle_close_popup)
+        popup = AddObjectPopup(callback=self.handle_close_popup)
         popup.open()
 
     def scroll_direction(self, pos_y):
         # print(f"pos_y = {pos_y}")
-        if (pos_y <= 0):
+        if pos_y <= 0:
             self.loadNextData()
 
     def selected_objects(self, elem, id_cell, text):
@@ -138,32 +142,7 @@ class MainScreen(Screen):
             )
         self.ids["hide_area_layout"].add_widget(widget)
 
-# from kivy.app import App
-# from kivy.uix.popup import Popup
-# from kivy.uix.button import Button
-# class MyPopup(Popup):
-#     def __init__(self, callback):
-#         super(MyPopup, self).__init__()
-#         self.callback = callback
-#     def on_dismiss(self):
-#         # Получаем результат из диалогового окна
-#         result = self.ids.text_input.text
-#         # Вызываем функцию обратного вызова и передаем ей результат
-#         self.callback(result)
-# class MyApp(App):
-#     def show_popup(self):
-#     # Создаем диалоговое окно
-#         popup = MyPopup(callback=self.handle_result)
-#         popup.open()
-#     def handle_result(self, result):
-#         # Обрабатываем результат
-#         print("Получен результат:", result)
-#     def build(self):
-#     # Создаем кнопку, которая вызывает диалоговое окно
-#         button = Button(text="Открыть диалоговое окно")
-#         button.bind(on_release=lambda _: self.show_popup())
-#         return button
-#
-#     if __name__ == '__main__':
-#         MyApp().run()
-# Источник: https://roza56.ru/deistvie-posle-zakrytiya-dialogovogo-okna-v-python-kivy
+    def next_screen(self, id):
+        self.manager.transition = SlideTransition(direction="left")
+        self.manager.current = "edit_building_cards"
+        # self.manager.get_screen("edit_building_cards").set_data_card(id)
