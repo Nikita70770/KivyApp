@@ -16,12 +16,12 @@
 ############################################# Динамические классы #############################################
 
 # Тексты карточки
-<LabelCard@MDLabel>:
-    font_size: fz_label
-    text_size: self.width, None
-    size_hint: 1, None
-    height: self.texture_size[1]
+<LabelCard@Label>:
+    size_hint: (None, None)
+    size: self.texture_size
     font_name: Montserrat_Regular
+    font_size: fz_label
+    color: (0, 0, 0, 1)
 
 # Изображение пользователя
 <ImageUser@Image>:
@@ -94,14 +94,13 @@
                             # Адрес
                             LabelCard:
                                 id: labl_address
-                                text: "г. Москва, ул. Автозаводская д. 19, к.1"
+                                size_hint: (1, None)
+                                height: self.texture_size[1]
+                                text_size: (self.width, None)
+                            Widget:
+                                size_hint_x: 0.1
                             LabelCard:
                                 id: labl_object_id
-                                pos_hint: {"right": 1, "center_y": 0.5}
-                                size_hint: (0.15, None)
-                                text: "#8"
-                                halign: "right"
-                                valign: "top"
                         # Дата создания
                         MDBoxLayout:
                             id: row2
@@ -110,15 +109,11 @@
                             orientation: "horizontal"
                             LabelCard:
                                 id: labl_date_creation
-                                valign: "top"
-                                text: '[b]Дата создания:[/b]'
-                                markup: True
+                                text: "Дата создания:"
                                 font_name: Montserrat_Medium
+                            Widget:
                             LabelCard:
                                 id: labl_val_date_creation
-                                valign: "top"
-                                halign: "right"
-                                text: "30/07/2023"
                         # Ответственный
                         MDBoxLayout:
                             id: row3
@@ -127,8 +122,6 @@
                             orientation: "horizontal"
                             LabelCard:
                                 id: labl_responsible
-                                valign: "top"
-                                height: layout_responsible.height
                                 text: "Ответственный:"
                                 font_name: Montserrat_Medium
                             RelativeLayout:
@@ -147,8 +140,6 @@
                             orientation: "horizontal"
                             LabelCard:
                                 id: labl_participants
-                                valign: "top"
-                                height: grid_layout_participants.height
                                 text: "Участники:"
                                 font_name: Montserrat_Medium
                             RelativeLayout:
@@ -184,6 +175,7 @@
                     orientation: "vertical"
                     adaptive_height: True
                     md_bg_color: (255/255, 255/255, 255/255, 1)
+                    # Даты выезда
                     LabelCard:
                         id: labl_departure_dates
                         text: "Даты выезда:"
@@ -191,8 +183,9 @@
                     MDGridLayout:
                         rows: 1
                         cols: 2
-                        size_hint: (0.6, None)
+                        size_hint_y: None
                         adaptive_height: True
+                        spacing: 50
                         LabelCard:
                             id: labl_val_departure_dates
                             line_height: 1.5
@@ -215,27 +208,47 @@
                         adaptive_height: True
                         orientation: "vertical"
                         pos_hint: {"x": 0, "top": 1}
+                        spacing: 5
+                        # Контакт
                         LabelCard:
                             id: labl_contact
                             text: "Контакт:"
                             font_name: Montserrat_Medium
+                        # ФИО
                         LabelCard:
                             id: labl_val_full_name
-                            text: "Ирина Владимировна Колосова"
+                            size_hint: (1, None)
+                            height: self.texture_size[1]
+                            text_size: (self.width, None)
+                        # Почта
                         LabelCard:
-                            id: labl_val_mail_and_phone
-                            line_height: 1.25
-                            text: "895645821@mail.ru\n8(999)452-56-56"
+                            id: labl_val_email
+                        # Телефон
+                        LabelCard:
+                            id: labl_val_phone
                         MDSeparator:
                             height: "1dp"
                             md_bg_color: (217/255, 217/255, 217/255, 1)
-                        LabelCard:
-                            id: labl_status
-                            text: "Статус: В работе"
-                            font_name: Montserrat_Medium
-                        LabelCard:
-                            id: labl_contract_number
-                            text: "№ Договора: ТО-12/01/2023"
+                        MDBoxLayout:
+                            orientation: "horizontal"
+                            size_hint_y: None
+                            adaptive_height: True
+                            # Статус
+                            LabelCard:
+                                id: labl_status
+                                text: "Статус: "
+                                font_name: Montserrat_Medium
+                            LabelCard:
+                                id: labl_val_status
+                        MDBoxLayout:
+                            orientation: "horizontal"
+                            size_hint_y: None
+                            adaptive_height: True
+                            LabelCard:
+                                id: labl_contract_number
+                                text: "№ Договора: "
+                            LabelCard:
+                                id: labl_val_contract_number
                     RelativeLayout:
                         BoxLayout:
                             pos_hint: {"center_x": 0.5, "center_y": 0.5}
@@ -244,4 +257,4 @@
                             Image:
                                 id: img_building
                                 fit_mode: "cover"
-                                source: "assets/img/building/building1.jpg"
+#                                source: "assets/img/building/building1.jpg"

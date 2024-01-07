@@ -35,26 +35,9 @@
 #    size_hint: (0.55, 0.65)
     size_hint: (0.49, 0.58)
     background_color: (0, 0, 0, 0)
-#    MDBoxLayout:
-#        orientation: "horizontal"
-#        md_bg_color: (0, 1, 0, 1)
     BoxLayout:
         id: add_object_fragment
-#        orientation: "vertical"
         orientation: "horizontal"
-#            Btn:
-#                pos_hint: { "center_x": 0.5, "center_y": 0.5 }
-#                padding: padding_btn
-#                size: self.texture_size
-#                text: "Сохранить"
-#                font_size: label_fz
-#                canvas.before:
-#                    Color:
-#                        rgba: (0, 0, 0, 1)
-#                    RoundedRectangle:
-#                        pos: self.pos
-#                        size: self.size
-#                        radius: [6, ]
         Btn:
             pos_hint: {"x": 0, "top": 1}
             width: img_close_popup.size[0]

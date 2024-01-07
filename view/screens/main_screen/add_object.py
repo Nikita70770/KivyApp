@@ -23,10 +23,12 @@ class AddObject(BoxLayout):
         "Статус": ["В работе", "В ожидании", "Завершено"]
     }
 
-    def __init__(self, callback):
+    def __init__(self, data, callback):
         super(AddObject, self).__init__()
         Clock.schedule_once(self.init_popup, 0)
         self.callback = callback
+        print("init add object form")
+        # print(f"data add object = {data}")
 
     def init_popup(self, dt):
         self.set_style_popup()

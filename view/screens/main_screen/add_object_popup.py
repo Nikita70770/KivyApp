@@ -10,11 +10,11 @@ Builder.load_file(os.getcwd() + "/ui/add_object_popup.kv")
 
 class AddObjectPopup(ModalView):
 
-    def __init__(self, callback):
+    def __init__(self, data, callback):
         super(AddObjectPopup, self).__init__()
 
         add_obj_fragment = self.ids["add_object_fragment"]
-        add_object = AddObject(callback=self.close_popup)
+        add_object = AddObject(data, callback=self.close_popup)
 
         add_obj_fragment.add_widget(add_object, len(add_obj_fragment.children))
         self.handle_close_popup = callback

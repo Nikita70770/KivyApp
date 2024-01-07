@@ -80,6 +80,7 @@
                     id: input_data_layout
                     InputDataContainer:
                         InputData:
+                            id: input_name
             BoxLayout:
                 id: type_service_layout
                 orientation: "horizontal"
@@ -91,9 +92,9 @@
                     id: input_data_layout
                     InputDataContainer:
                         InputData:
-                            id: inpt_type_service
+                            id: input_type_service
                             on_focus:
-                                if self.focus: root.open_dropdown_menu("Тип услуги", 1, ["type_service_layout", "inpt_type_service"])
+                                if self.focus: root.open_dropdown_menu("Тип услуги", 1, ["type_service_layout", "input_type_service"])
             BoxLayout:
                 orientation: "horizontal"
                 TextLabel:
@@ -104,6 +105,7 @@
                     id: input_data_layout
                     InputDataContainer:
                         InputData:
+                            id: input_address
             BoxLayout:
                 orientation: "horizontal"
                 TextLabel:
@@ -114,6 +116,7 @@
                     id: input_data_layout
                     InputDataContainer:
                         InputData:
+                            id: input_full_name
             BoxLayout:
                 orientation: "horizontal"
                 TextLabel:
@@ -124,6 +127,7 @@
                     id: input_data_layout
                     InputDataContainer:
                         InputData:
+                            id: input_phone
             BoxLayout:
                 orientation: "horizontal"
                 TextLabel:
@@ -134,6 +138,7 @@
                     id: input_data_layout
                     InputDataContainer:
                         InputData:
+                            id: input_email
             BoxLayout:
                 id: layout_responsible
                 orientation: "horizontal"

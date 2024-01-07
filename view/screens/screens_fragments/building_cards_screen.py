@@ -1,5 +1,6 @@
 import os
 
+from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
@@ -8,6 +9,7 @@ from kivy.uix.widget import Widget
 
 from view.screens.main_screen.add_object_popup import AddObjectPopup
 from view.screens.main_screen.custom_elements.card_object import CardObject
+from view.screens.screens_fragments.edit_building_screen import EditBuildingCards
 
 Builder.load_file(os.getcwd() + "/ui/building_cards_screen.kv")
 
@@ -20,11 +22,12 @@ class BuildingCards(Screen):
 
     def __init__(self, **kwargs):
         super(BuildingCards, self).__init__(**kwargs)
+        self.name = "building_cards"
 
     def on_kv_post(self, base_widget):
-        self.initData()
+        self.init_data()
 
-    def getCountCard(self):
+    def get_count_card(self):
         return len([card for card in self.ids["gridlayout_cards"].children])
 
     def clear_grid_cards(self):
@@ -35,7 +38,7 @@ class BuildingCards(Screen):
             self.ids["btn_add_object"].background_color = (0, 0, 0, 0)
             self.ids["img_plus"].source = "assets/img/plus_48.png"
 
-    def initData(self):
+    def init_data(self):
         print("Первичная инициализация")
         self.arrIndex[0] = 0
         if self.sizeData == 0:
@@ -59,7 +62,7 @@ class BuildingCards(Screen):
         print(f"currCount = {self.currCount}")
 
     def loadNextData(self):
-        if self.getCountCard() > 0:
+        if self.get_count_card() > 0:
             self.clear_grid_cards()
         diff = self.sizeData - self.arrIndex[1]
         if diff < self.countCard:
@@ -92,7 +95,7 @@ class BuildingCards(Screen):
         # self.ids[id_img_plus].source = "assets/img/plus_click.png"
         self.ids[id_img_plus].source = "assets/img/plus_click_48.png"
 
-        popup = AddObjectPopup(callback=self.handle_close_popup)
+        popup = AddObjectPopup(data=None, callback=self.handle_close_popup)
         popup.open()
 
     def scroll_direction(self, pos_y):
@@ -142,7 +145,13 @@ class BuildingCards(Screen):
             )
         self.ids["hide_area_layout"].add_widget(widget)
 
-    def next_screen(self, id):
+    def next_screen(self, object_data):
+        edit_screen = EditBuildingCards(name="edit_building_cards")
         self.manager.transition = SlideTransition(direction="left")
+        self.manager.add_widget(edit_screen)
+        self.manager.transition.duration = 0.5
+        # self.manager.transition = SlideTransition(direction="left")
+        # self.manager.add_widget(edit_screen)
         self.manager.current = "edit_building_cards"
-        # self.manager.get_screen("edit_building_cards").set_data_card(id)
+        # self.manager.transition = SlideTransition(direction="left")
+        # self.manager.get_screen("edit_building_cards").set_data_object(object_data)
