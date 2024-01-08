@@ -146,12 +146,8 @@ class BuildingCards(Screen):
         self.ids["hide_area_layout"].add_widget(widget)
 
     def next_screen(self, object_data):
-        edit_screen = EditBuildingCards(name="edit_building_cards")
         self.manager.transition = SlideTransition(direction="left")
-        self.manager.add_widget(edit_screen)
         self.manager.transition.duration = 0.5
-        # self.manager.transition = SlideTransition(direction="left")
-        # self.manager.add_widget(edit_screen)
+
+        self.manager.add_widget(EditBuildingCards(object_data))
         self.manager.current = "edit_building_cards"
-        # self.manager.transition = SlideTransition(direction="left")
-        # self.manager.get_screen("edit_building_cards").set_data_object(object_data)

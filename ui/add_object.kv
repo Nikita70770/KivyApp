@@ -1,3 +1,8 @@
+############################################# Импорт файлов #############################################
+#:import ScrollEffect kivy.effects.scroll.ScrollEffect
+
+########################################################################################################
+
 ############################################# Переменные #####################################################
 # Пробелы
 #:set spacing_between_participant dp(5)
@@ -180,6 +185,7 @@
                     id: input_data_layout
                     InputDataContainer:
                         InputData:
+                            id: input_contract_num
             BoxLayout:
                 id: status_layout
                 orientation: "horizontal"
@@ -202,7 +208,40 @@
                 InputDataLayout:
                     id: input_data_layout
                     InputDataContainer:
-                        InputData:
+                        pos_hint: { "right": 1, "center_y": 0.5 }
+                        size_hint_x: 0.97
+#                        canvas.before:
+#                            Color:
+#                                rgba: (0, 1, 0, 1)
+#                            Rectangle:
+#                                pos: self.pos
+#                                size: self.size
+                        BoxLayout:
+                            orientation: "horizontal"
+                            MDScrollView:
+                                do_scroll_x: True
+                                do_scroll_y: False
+                                bar_width: 0
+                                effect_cls: ScrollEffect
+                                MDBoxLayout:
+                                    id: layout_departure_dates
+                                    orientation: "horizontal"
+                                    size_hint_x: None
+                                    adaptive_width: True
+                                    spacing: 20
+                            Button:
+                                pos_hint: {"x": 0, "center_y": 0.5}
+                                size_hint: (None, None)
+                                size: img_calendar.size
+                                background_normal: ""
+                                on_release: root.show_calendar_dialog()
+                                Image:
+                                    id: img_calendar
+                                    center_x: self.parent.center_x
+                                    center_y: self.parent.center_y
+                                    size_hint: (None, None)
+                                    size: self.texture_size
+                                    source: "assets/img/calendar.png"
             BoxLayout:
                 orientation: "horizontal"
                 TextLabel:
@@ -216,7 +255,7 @@
                         opacity: 0
                         on_release: root.choose_img_building(["container_building", "labl_file_name"])
                     InputDataContainer:
-#                        id: box_layout_building
+                        id: box_layout_building
                         MDBoxLayout:
                             id: container_building
                             orientation: "horizontal"
@@ -227,7 +266,6 @@
                                 pos_hint: {"x": 0, "center_y": 0.5}
                                 size_hint: (None, None)
                                 size: self.texture_size
-                                text: ""
                                 font_name: Montserrat_Regular
                                 font_size: sp(11)
                                 color: (0, 0, 0, 1)
