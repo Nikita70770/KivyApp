@@ -26,12 +26,17 @@ class AddObject(BoxLayout):
         "Статус": ["В работе", "В ожидании", "Завершено"]
     }
 
-    def __init__(self, data, callback):
+    def __init__(self, data, close_popup, edit_img):
         super(AddObject, self).__init__()
         Clock.schedule_once(self.init_popup, 0)
-        self.callback = callback
+
+        self.close_popup_callback = close_popup
+        self.edit_img_callback = edit_img
 
         self.fill_data_input_form(data)
+
+        print(f"close_popup_callback = {self.close_popup_callback}")
+        print(f"edit_img_callback = {self.edit_img_callback}")
         # print(f"data object eeeeeeee = {data}")
         # print(f"data add object = {data}")
 
@@ -49,23 +54,25 @@ class AddObject(BoxLayout):
             self.ids["input_phone"].text = data["phone"]
             self.ids["input_email"].text = data["email"]
 
-            responsible = self.create_element_user("", data["responsible"])
+            responsible = self.create_element_user(self.ids["box_layout_responsible"], data["responsible"])
             self.ids["box_layout_responsible"].add_widget(responsible)
 
             if not len(data["participants"]) == 0:
+                layout = self.ids["box_layout_participant"]
                 for i in range(len(data["participants"])):
-                    count_elems_layout = len(self.ids["box_layout_participant"].children)
-                    participant = self.create_element_user("", data["participants"][i])
-                    self.ids["box_layout_participant"].add_widget(participant, count_elems_layout)
+                    count_elems_layout = len(layout.children)
+                    participant = self.create_element_user(layout, data["participants"][i])
+                    layout.add_widget(participant, count_elems_layout)
 
             self.ids["input_contract_num"].text = data["contract_num"]
             self.ids["inpt_choose_status"].text = data["status"]
 
             if not len(data["departure_dates"]) == 0:
+                layout = self.ids["layout_departure_dates"]
                 for j in range(len(data["departure_dates"])):
-                    count_elems_layout = len(self.ids["layout_departure_dates"].children)
+                    count_elems_layout = len(layout.children)
                     departure_date = self.create_departure_date(data["departure_dates"][j])
-                    self.ids["layout_departure_dates"].add_widget(departure_date)
+                    layout.add_widget(departure_date)
 
             file_name = os.path.basename(data["img_object"])
             self.ids["container_building"].opacity = 1
@@ -94,16 +101,20 @@ class AddObject(BoxLayout):
         departure_date.reverse()
         departure_date = "/".join(departure_date)
 
-        date_label = Label(
-            pos_hint={ "center_y": 0.5 },
+        layout = self.ids["layout_departure_dates"]
+
+        date_btn = Button(
+            pos_hint={"center_y": 0.5},
             size_hint=(None, None),
             font_name="assets/fonts/Montserrat-Regular.ttf",
-            font_size=sp(10),
+            font_size=sp(12),
             text=departure_date,
-            color=(0, 0, 0, 1)
+            color=(0, 0, 0, 1),
+            background_color=(0, 0, 0, 0),
+            on_release=lambda *_: self.delete_element(layout, date_btn)
         )
-        date_label.bind(texture_size=date_label.setter("size"))
-        return date_label
+        date_btn.bind(texture_size=date_btn.setter("size"))
+        return date_btn
 
     # Выпадающий список
     def open_dropdown_menu(self, name_field, max_elems, list_id):
@@ -130,7 +141,7 @@ class AddObject(BoxLayout):
             width_mult=4
         ).open()
 
-    def create_element_user(self, element, name):
+    def create_element_user(self, layout, name):
         rounded_rect = None
         responsible = Button(
             pos_hint={"x": 0, "center_y": 0.5},
@@ -154,14 +165,14 @@ class AddObject(BoxLayout):
             texture_size=responsible.setter('size'),
             pos=lambda *_: self.update_rounded_rect(rounded_rect, responsible),
             size=lambda *_: self.update_rounded_rect(rounded_rect, responsible),
-            on_release=lambda *_: self.delete_user(element, responsible)
+            on_release=lambda *_: self.delete_element(layout, responsible)
         )
         return responsible
 
-    def delete_user(self, layout, user):
-        count_users = len(layout.children)
-        if count_users > 0:
-            layout.remove_widget(user)
+    def delete_element(self, layout, element):
+        count_elems = len(layout.children)
+        if count_elems > 0:
+            layout.remove_widget(element)
 
     def menu_callback(self, element, text, max_count_users):
         if isinstance(element, TextInput):
@@ -173,19 +184,22 @@ class AddObject(BoxLayout):
                 element.add_widget(user_elem)
 
     def choose_img_building(self, list_ids):
-        print(f"list_ids = {list_ids}")
+        # print(f"list_ids = {list_ids}")
         self.manager.open_file_manager()
-        print(f"Данные файла = {self.manager.get_data_file()}")
+        # print(f"Данные файла = {self.manager.get_data_file()}")
 
-        name_file = self.manager.get_data_file()
+        path_file = self.manager.get_path_file()
+        name_file = self.manager.get_file_name()
 
         container_building = self.ids[list_ids[0]]
         labl_file_name = self.ids[list_ids[1]]
 
-        if not name_file is None:
+        if name_file is not None:
             container_building.opacity = 1
             labl_file_name.text = name_file
-        # self.create_element_building(container, name_file)
+
+            if self.edit_img_callback is not None:
+                self.edit_img_callback(path_file)
 
     def delete_elem_building(self, list_ids):
         container_building = self.ids[list_ids[0]]
@@ -194,11 +208,14 @@ class AddObject(BoxLayout):
         self.manager.clear_data()
         container_building.opacity = 0
         labl_file_name.text = ""
-        print(f"Данные файла = {self.manager.get_data_file()}")
+        # print(f"Данные файла = {self.manager.get_data_file()}")
 
     def save_data_object(self):
-        self.callback()
+        self.close_popup_callback()
 
     def update_rounded_rect(self, rounded_rect, button):
         rounded_rect.pos = button.pos
         rounded_rect.size = button.size
+
+    def scroll_direction(self, scroll_x):
+        print(f"scroll_x = {scroll_x}")

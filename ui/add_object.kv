@@ -23,22 +23,29 @@
 ###############################################################################################################
 
 ############################################# Динамические классы #############################################
-<TextLabel@MDLabel>:
+<TextLabel@Label>:
     size_hint: (None, None)
     font_size: label_fz
     font_name: Montserrat_Medium
+    color: (0, 0, 0, 1)
 
 <Btn@Button>
     size_hint: (None, None)
     background_normal: ""
     background_color: (0, 0, 0, 0)
 
+<IconBtn@Image>:
+    center_x: self.parent.center_x
+    center_y: self.parent.center_y
+    size_hint: (None, None)
+    size: self.texture_size
+
 <InputData@TextInput>:
-    font_size: text_input_fz
     font_name: Montserrat_Regular
     cursor_color: (0, 0, 0, 1)
     background_color: [0, 0, 0, 0]
     background_normal: ""
+    font_size: sp(12)
 
 <InputDataLayout@RelativeLayout>:
     # рамка для BoxLayout
@@ -86,6 +93,7 @@
                     InputDataContainer:
                         InputData:
                             id: input_name
+                            font_size: sp(12)
             BoxLayout:
                 id: type_service_layout
                 orientation: "horizontal"
@@ -168,13 +176,33 @@
                     text: "Участники"
                 InputDataLayout:
                     id: input_data_layout
-                    Button:
-                        id: btn_choose_participant
-                        opacity: 0
-                        on_release: root.open_dropdown_menu("Участники", 4, ["layout_participant", "box_layout_participant"])
                     InputDataContainer:
-                        id: box_layout_participant
-                        spacing: spacing_between_participant
+#                        pos_hint: { "right": 1 }
+#                        size_hint_x: 0.975
+                        spacing: 5
+                        MDScrollView:
+#                            do_scroll_x: True
+                            do_scroll_y: False
+#                            do_scroll_y: True
+                            effect_cls: ScrollEffect
+#                            bar_color: (1, 0, 0, 1)
+#                            md_bg_color: (0, 0, 1, 1)
+                            on_scroll_stop: root.scroll_direction(self.scroll_x)
+                            BoxLayout:
+                                id: box_layout_participant
+                                orientation: "horizontal"
+                                size_hint_x: None
+                                width: self.minimum_width
+#                                adaptive_width: True
+                                spacing: spacing_between_participant
+                        Btn:
+                            pos_hint: {"x": 0, "center_y": 0.5}
+                            id: btn_add_participant
+                            size: img_add_group_users.size
+                            on_release: root.open_dropdown_menu("Участники", 4, ["layout_participant", "box_layout_participant"])
+                            IconBtn:
+                                id: img_add_group_users
+                                source: "assets/img/add_group_users.png"
             BoxLayout:
                 orientation: "horizontal"
                 TextLabel:
@@ -208,16 +236,9 @@
                 InputDataLayout:
                     id: input_data_layout
                     InputDataContainer:
-                        pos_hint: { "right": 1, "center_y": 0.5 }
-                        size_hint_x: 0.97
-#                        canvas.before:
-#                            Color:
-#                                rgba: (0, 1, 0, 1)
-#                            Rectangle:
-#                                pos: self.pos
-#                                size: self.size
                         BoxLayout:
                             orientation: "horizontal"
+                            spacing: 5
                             MDScrollView:
                                 do_scroll_x: True
                                 do_scroll_y: False
@@ -229,18 +250,12 @@
                                     size_hint_x: None
                                     adaptive_width: True
                                     spacing: 20
-                            Button:
+                            Btn:
                                 pos_hint: {"x": 0, "center_y": 0.5}
-                                size_hint: (None, None)
                                 size: img_calendar.size
-                                background_normal: ""
                                 on_release: root.show_calendar_dialog()
-                                Image:
+                                IconBtn:
                                     id: img_calendar
-                                    center_x: self.parent.center_x
-                                    center_y: self.parent.center_y
-                                    size_hint: (None, None)
-                                    size: self.texture_size
                                     source: "assets/img/calendar.png"
             BoxLayout:
                 orientation: "horizontal"
@@ -261,26 +276,19 @@
                             orientation: "horizontal"
                             spacing: dp(5)
                             opacity: 0
-                            Label:
+                            TextLabel:
                                 id: labl_file_name
                                 pos_hint: {"x": 0, "center_y": 0.5}
                                 size_hint: (None, None)
                                 size: self.texture_size
                                 font_name: Montserrat_Regular
                                 font_size: sp(11)
-                                color: (0, 0, 0, 1)
-                            Button:
+                            Btn:
                                 pos_hint: {"x": 0, "center_y": 0.5}
-                                size_hint: (None, None)
                                 size: img_remove.size
-                                background_normal: ""
                                 on_release: root.delete_elem_building(["container_building", "labl_file_name"])
-                                Image:
+                                IconBtn:
                                     id: img_remove
-                                    center_x: self.parent.center_x
-                                    center_y: self.parent.center_y
-                                    size_hint: (None, None)
-                                    size: self.texture_size
                                     source: "assets/img/remove_elem32.png"
     Btn:
         id: save_data

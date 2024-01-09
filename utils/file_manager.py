@@ -27,7 +27,11 @@ class FileManager:
             self.selection = path
             print(f"selection = {self.selection}")
 
-    def get_data_file(self):
+    def get_path_file(self):
+        if len(self.selection) > 0:
+            return self.selection[0]
+
+    def get_file_name(self):
         if len(self.selection) > 0:
             return os.path.basename(self.selection[0])
 

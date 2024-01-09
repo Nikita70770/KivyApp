@@ -95,7 +95,7 @@ class BuildingCards(Screen):
         # self.ids[id_img_plus].source = "assets/img/plus_click.png"
         self.ids[id_img_plus].source = "assets/img/plus_click_48.png"
 
-        popup = AddObjectPopup(data=None, callback=self.handle_close_popup)
+        popup = AddObjectPopup(None, self.handle_close_popup)
         popup.open()
 
     def scroll_direction(self, pos_y):
@@ -146,8 +146,11 @@ class BuildingCards(Screen):
         self.ids["hide_area_layout"].add_widget(widget)
 
     def next_screen(self, object_data):
+        screen = EditBuildingCards(object_data)
+        # screen = EditBuildingCards(callback=self.next_screen_callback)
+
         self.manager.transition = SlideTransition(direction="left")
         self.manager.transition.duration = 0.5
 
-        self.manager.add_widget(EditBuildingCards(object_data))
+        self.manager.add_widget(screen)
         self.manager.current = "edit_building_cards"

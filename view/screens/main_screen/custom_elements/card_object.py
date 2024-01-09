@@ -41,21 +41,6 @@ class CardObject(MDCard):
         self.ids["labl_val_status"].text = self.object_data["status"]
         self.ids["labl_val_contract_number"].text = self.object_data["contract_num"]
         self.ids["img_building"].source = self.object_data["img_object"]
-        # self.card_data = {
-        #     "id": id,
-        #     "name": "г. Москва, ул. Автозаводская д. 19, к.1",
-        #     "type_service": "Техническое обследование",
-        #     "address_object": "г. Москва, ул. Автозаводская д. 19, к.1",
-        #     "full_name": "Ирина Владимировна Колосова",
-        #     "phone": "8 (999) 452-56-56",
-        #     "email": "895645821@mail.ru",
-        #     "responsible": "Солоха Николай",
-        #     "participants": ["Олег Кононов", "Мария Москаленко", "Дмитрий Тарасевич"],
-        #     "contract_num": "ТО-12/01/2023",
-        #     "status": "В работе",
-        #     "departure_dates": ["30/07/2023", "12/08/2023", "19/08/2023"],
-        #     "img_object": "Screenshot_5.jpg"
-        # }
 
     def card_click(self):
         self.callback(self.object_data)
