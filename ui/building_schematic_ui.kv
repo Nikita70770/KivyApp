@@ -1,0 +1,250 @@
+######################################################### Переменные ################################################
+# Пробелы
+#:set main_spacing 40
+#:set header_spacing 45
+
+# Шрифты
+#:set Montserrat_Regular "assets/fonts/Montserrat-Regular.ttf"
+#:set Montserrat_Medium "assets/fonts/Montserrat-Medium.ttf"
+###########################################################################################################
+
+<BuildingSchematic>:
+    name: "building_schematic"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: main_spacing
+        MDBoxLayout:
+            id: header
+            orientation: "horizontal"
+            size_hint_y: None
+            adaptive_height: True
+            MDSeparator:
+                orientation: "vertical"
+                width: 10
+                md_bg_color: (0, 0, 0, 0)
+            MDBoxLayout:
+                id: header_content
+                size_hint_y: None
+                adaptive_height: True
+                spacing: header_spacing
+                Image:
+                    id: logo_img
+                    pos_hint: { "center_y": 0.5 }
+                    size_hint: (None, None)
+                    size: self.texture_size
+                    source: "assets/img/logo.png"
+                RelativeLayout:
+                    MDBoxLayout:
+                        id: header_content_right
+                        orientation: "horizontal"
+                        pos_hint: { "left": 0 }
+                        size_hint_x: None
+                        adaptive_width: True
+                        spacing: 10
+                        Button:
+                            size_hint_x: None
+                            width: self.texture_size[0]
+                            padding: [dp(20), 0]
+                            text: "Создать слой"
+                            color: (0, 0, 0, 1)
+                            background_normal: ""
+                            background_color: (0, 0, 0, 0)
+                            canvas.before:
+                                Color:
+                                    rgba: (217/255, 217/255, 217/255, 1)
+                                Line:
+                                    width: 1.15
+                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+                        MDSeparator:
+                            orientation: "vertical"
+                            width: 10
+                        MDBoxLayout:
+                            orientation: "horizontal"
+                            size_hint_x: None
+                            adaptive_width: True
+                            canvas.before:
+                                Color:
+                                    rgba: (217/255, 217/255, 217/255, 1)
+                                Line:
+                                    width: 1.15
+                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+                            MDBoxLayout:
+                                orientation: "horizontal"
+                                size_hint_x: None
+                                adaptive_width: True
+                                padding: [dp(20), 0]
+                                Label:
+                                    size_hint_x: None
+                                    width: self.texture_size[0]
+                                    text: "Выбор листа"
+                                    color: (0, 0, 0, 1)
+                            MDSeparator:
+                                orientation: "vertical"
+                                width: 2
+                                md_bg_color: (217/255, 217/255, 217/255, 1)
+                            MDBoxLayout:
+                                orientation: "horizontal"
+                                size_hint_x: None
+                                adaptive_width: True
+                                padding: [dp(12), 0]
+                                Button:
+                                    pos_hint: { "center_y": 0.5 }
+                                    size_hint_x: None
+                                    width: img_dropdown_menu.size[0]
+                                    padding: [dp(10), 0]
+                                    background_normal: ""
+                                    background_color: (0, 0, 0, 0)
+                                    Image:
+                                        id: img_dropdown_menu
+                                        center_x: self.parent.center_x
+                                        center_y: self.parent.center_y
+                                        size_hint: (None, None)
+                                        size: self.texture_size
+                                        source: "assets/img/dropdown_menu.png"
+                        MDBoxLayout:
+                            orientation: "horizontal"
+                            size_hint_x: None
+                            adaptive_width: True
+                            padding: [dp(8), 0]
+                            canvas.before:
+                                Color:
+                                    rgba: (217/255, 217/255, 217/255, 1)
+                                Line:
+                                    width: 1.15
+                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+                            Button:
+                                size_hint_x: None
+                                width: img_layers.size[0]
+                                background_normal: ""
+                                background_color: (0, 0, 0, 0)
+                                Image:
+                                    id: img_layers
+                                    center_x: self.parent.center_x
+                                    center_y: self.parent.center_y
+                                    size_hint: (None, None)
+                                    size: self.texture_size
+                                    source: "assets/img/layers.png"
+                    MDBoxLayout:
+                        orientation: "horizontal"
+                        pos_hint: { "right": 1 }
+                        size_hint_x: None
+                        adaptive_width: True
+                        spacing: 10
+                        Button:
+                            size_hint_x: None
+                            width: self.texture_size[0]
+                            padding: [dp(15), 0]
+                            color: (0, 0, 0, 1)
+                            background_normal: ""
+                            background_color: (0, 0, 0, 0)
+                            text: "Планы"
+                            canvas.before:
+                                Color:
+                                    rgba: (217/255, 217/255, 217/255, 1)
+                                Line:
+                                    width: 1.15
+                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+                        Button:
+                            size_hint_x: None
+                            width: self.texture_size[0]
+                            padding: [dp(15), 0]
+                            color: (0, 0, 0, 1)
+                            background_normal: ""
+                            background_color: (0, 0, 0, 0)
+                            text: "Разрезы"
+                            canvas.before:
+                                Color:
+                                    rgba: (217/255, 217/255, 217/255, 1)
+                                Line:
+                                    width: 1.15
+                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+                        Button:
+                            size_hint_x: None
+                            width: self.texture_size[0]
+                            padding: [dp(15), 0]
+                            color: (0, 0, 0, 1)
+                            background_normal: ""
+                            background_color: (0, 0, 0, 0)
+                            text: "Узлы"
+                            canvas.before:
+                                Color:
+                                    rgba: (217/255, 217/255, 217/255, 1)
+                                Line:
+                                    width: 1.15
+                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+                        Button:
+                            size_hint_x: None
+                            width: self.texture_size[0]
+                            padding: [dp(15), 0]
+                            color: (0, 0, 0, 1)
+                            background_normal: ""
+                            background_color: (0, 0, 0, 0)
+                            text: "Геология"
+                            canvas.before:
+                                Color:
+                                    rgba: (217/255, 217/255, 217/255, 1)
+                                Line:
+                                    width: 1.15
+                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+                        Button:
+                            size_hint_x: None
+                            width: self.texture_size[0]
+                            padding: [dp(15), 0]
+                            color: (0, 0, 0, 1)
+                            background_normal: ""
+                            background_color: (0, 0, 0, 0)
+                            text: "Геодезия"
+                            canvas.before:
+                                Color:
+                                    rgba: (217/255, 217/255, 217/255, 1)
+                                Line:
+                                    width: 1.15
+                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+                        Button:
+                            size_hint_x: None
+                            width: self.texture_size[0]
+                            padding: [dp(15), 0]
+                            color: (0, 0, 0, 1)
+                            background_normal: ""
+                            background_color: (0, 0, 0, 0)
+                            text: "Фото"
+                            canvas.before:
+                                Color:
+                                    rgba: (217/255, 217/255, 217/255, 1)
+                                Line:
+                                    width: 1.15
+                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+
+        # ...
+        BoxLayout:
+            id: content
+            orientation: "horizontal"
+            spacing: content_spacing
+            MDStackLayout:
+                id: content_left_column
+                orientation: "lr-tb"
+                size_hint_x: None
+                adaptive_width: True
+                Button:
+                    id: btn_go_back
+                    pos_hint: {"center_x": 0.5, "y": 1}
+                    size_hint: (None, None)
+                    size: img_go_back.size
+                    background_normal: ""
+                    background_color: (0, 0, 0, 0)
+#                    on_press: root.previous_screen()
+                    canvas.before:
+                        Color:
+                            rgba: 217/255, 217/255, 217/255, 1
+                        Line:
+                            width: 1.5
+                            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
+                    Image:
+                        id: img_go_back
+                        size_hint: (None, None)
+                        size: (80, 80)
+                        source: "assets/img/arrow_left.png"
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+            MDRelativeLayout:
+                md_bg_color: (150/255, 150/255, 150/255, 1)

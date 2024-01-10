@@ -1,7 +1,13 @@
-#:import MainScreen view.screens.main_screen.main_window
+#:import BuildingCards view.screens.building_cards.building_cards_screen
 
-ScreenManager:
-    id: screen_manager
-    MainScreen:
-        id: main_screen
-        manager: screen_manager
+MDBoxLayout:
+    id: main
+    orientation: "vertical"
+    padding: [35]
+    spacing: 40
+    md_bg_color: (255, 255, 255, 1)
+    ScreenManager:
+        id: screen_manager
+        BuildingCards:
+            name: "building_cards"
+            manager: screen_manager

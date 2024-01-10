@@ -1,19 +1,18 @@
 import os
 
-from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, SlideTransition
 
+from view.screens.building_schematic.building_schematic_screen import BuildingSchematic
 from view.screens.main_screen.add_object import AddObject
 
-Builder.load_file(os.getcwd() + "/ui/edit_building_cards_screen.kv")
+Builder.load_file(os.getcwd() + "/ui/edit_building_cards_ui.kv")
 
 
 class EditBuildingCards(Screen):
 
     def __init__(self, data_object):
         super(EditBuildingCards, self).__init__()
-        self.name = "edit_building_cards"
         self.stylize_data_input_form(data_object)
 
     def update_size(self, input_data_layout):
@@ -35,10 +34,21 @@ class EditBuildingCards(Screen):
     def choose_img_building(self, path_file):
         img_building = self.ids["img_building"]
 
-        if not(img_building is None):
+        if not (img_building is None):
             img_building.source = path_file
 
+    def add_building_plan(self):
+        self.next_screen()
+
+    def next_screen(self):
+        building_schematic_screen = BuildingSchematic()
+        self.manager.transition = SlideTransition(direction="left")
+        self.manager.add_widget(building_schematic_screen)
+        self.manager.current = "building_schematic"
+
     def previous_screen(self):
+        # print(f"manager 2 screen = {self.manager}")
+
         self.manager.transition = SlideTransition(direction="right")
         self.manager.current = "building_cards"
         self.manager.remove_widget(self)

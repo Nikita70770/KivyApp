@@ -1,17 +1,16 @@
 import os
 
-from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen, SlideTransition
 from kivy.uix.widget import Widget
 
+from view.screens.edit_building.edit_building_screen import EditBuildingCards
 from view.screens.main_screen.add_object_popup import AddObjectPopup
 from view.screens.main_screen.custom_elements.card_object import CardObject
-from view.screens.screens_fragments.edit_building_screen import EditBuildingCards
 
-Builder.load_file(os.getcwd() + "/ui/building_cards_screen.kv")
+Builder.load_file(os.getcwd() + "/ui/building_cards_ui.kv")
 
 
 class BuildingCards(Screen):
@@ -22,7 +21,6 @@ class BuildingCards(Screen):
 
     def __init__(self, **kwargs):
         super(BuildingCards, self).__init__(**kwargs)
-        self.name = "building_cards"
 
     def on_kv_post(self, base_widget):
         self.init_data()
@@ -50,11 +48,6 @@ class BuildingCards(Screen):
         for i in range(self.arrIndex[1]):
             # print(i)
             self.ids["gridlayout_cards"].add_widget(CardObject((i + 1), self.next_screen))
-            # if (i + 1) == self.arrIndex[1]:
-            #     print(f"(i + 1) == self.arrIndex[1]")
-            #     for j in range(self.arrIndex[1], self.countCard):
-            #         print(f"j = {j}")
-            #         self.ids["gridlayout_cards"].add_widget(MDLabel(text="Hello"))
         if self.sizeData <= 2:
             for j in range(self.sizeData, 3):
                 self.ids["gridlayout_cards"].add_widget(Widget(size_hint=(0.23, 1)))
@@ -146,11 +139,13 @@ class BuildingCards(Screen):
         self.ids["hide_area_layout"].add_widget(widget)
 
     def next_screen(self, object_data):
+        # print(f"manager 1 screen = {self.manager}")
+
         screen = EditBuildingCards(object_data)
-        # screen = EditBuildingCards(callback=self.next_screen_callback)
+        # screen = EditBuildingCards(object_data)
 
         self.manager.transition = SlideTransition(direction="left")
         self.manager.transition.duration = 0.5
 
         self.manager.add_widget(screen)
-        self.manager.current = "edit_building_cards"
+        self.manager.current = "edit_building"

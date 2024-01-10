@@ -1,0 +1,337 @@
+############################################# Импорт файлов #############################################
+#:import ScrollEffect kivy.effects.scroll.ScrollEffect
+###############################################################################################################
+
+######################################################### Переменные ################################################
+# Пробелы
+#:set content_spacing 20
+#:set vertical_spacing_1 dp(10)
+#:set vertical_spacing_2 dp(8)
+
+# Внутренние отступы
+
+# Шрифты
+#:set Montserrat_Regular "assets/fonts/Montserrat-Regular.ttf"
+
+#Размеры шрифтов
+#:set label_fz sp(12)
+###############################################################################################################
+
+############################################# Динамические классы #############################################
+<GeneralLabel@Label>:
+    size_hint: (None, None)
+    size: self.texture_size
+    font_name: Montserrat_Regular
+    font_size: label_fz
+    color: (0, 0, 0, 1)
+
+<BtnAddPlan@Button>:
+    pos_hint: { "right": 1, "center_y": 0.5 }
+    size_hint: (None, None)
+    size: img_add_plan.size
+    background_normal: ""
+    background_color: (0, 0, 0, 0)
+    canvas.before:
+        Color:
+            rgba: (217/255, 217/255, 217/255, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [6, ]
+    Image:
+        id: img_add_plan
+        source: "assets/img/plus_48.png"
+        center_x: self.parent.center_x
+        center_y: self.parent.center_y
+        size_hint: (None, None)
+        size: self.texture_size
+
+<ElementAddPlan@MDBoxLayout>:
+    orientation: "horizontal"
+    size_hint: (0.15, None)
+    adaptive_height: True
+    canvas.before:
+        Color:
+            rgba: (217/255, 217/255, 217/255, 1)
+        Line:
+            width: 1.1
+            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
+    Widget:
+        size_hint_x: 0.1
+
+<ContainerAddPlan@MDBoxLayout>:
+    orientation: "horizontal"
+    size_hint_y: None
+    adaptive_height: True
+
+<BlueprintsScroll@MDScrollView>:
+    do_scroll_y: False
+    do_scroll_x: True
+    effect_cls: ScrollEffect
+    bar_width: 0
+
+<BlueprintsGrid@MDGridLayout>:
+    rows: 1
+    cols: 6
+    spacing: 25
+    size_hint_x: None
+    adaptive_width: True
+
+<BlueprintCard@MDCard>:
+    size_hint_x: None
+    width: dp(120)
+    orientation: "vertical"
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: (217/255, 217/255, 217/255, 1)
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [dp(3)]
+
+<BlueprintTitle@Label>:
+    size_hint: (None, None)
+    size: self.texture_size
+    font_size: label_fz
+    color: (98/255, 98/255, 98/255, 1)
+###############################################################################################################
+
+
+<EditBuildingCards>:
+    name: "edit_building"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: main_spacing
+        MDBoxLayout:
+            id: header
+            orientation: "horizontal"
+            size_hint_y: None
+            adaptive_height: True
+            MDSeparator:
+                orientation: "vertical"
+                width: 10
+                md_bg_color: (0, 0, 0, 0)
+            MDBoxLayout:
+                id: header_content
+                size_hint_y: None
+                adaptive_height: True
+                spacing: header_spacing
+                Image:
+                    id: logo_img
+                    pos_hint: { "center_y": 0.5 }
+                    size_hint: (None, None)
+                    size: self.texture_size
+                    source: "assets/img/logo.png"
+                TextInput:
+                    id: search_textInput
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: [20]
+                    hint_text: "Поиск и фильтр"
+                    hint_text_color: (98/255, 98/255, 98/255, 1)
+                    font_size: sp(12)
+                    font_name: Montserrat_Regular
+                    cursor_color: (0, 0, 0, 1)
+                    background_color: [0, 0, 0, 0]
+                    background_normal: ""
+                    # рамка для TextInput
+                    canvas.after:
+                        Color:
+                            rgba: 217/255, 217/255, 217/255, 1
+                        Line:
+                            width: 1.5
+                            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
+        # Главное содержимое страницы
+        BoxLayout:
+            id: content
+            orientation: "horizontal"
+            spacing: content_spacing
+            MDStackLayout:
+                id: content_left_column
+                orientation: "lr-tb"
+                size_hint_x: None
+                adaptive_width: True
+                Button:
+                    id: btn_go_back
+                    pos_hint: {"center_x": 0.5, "y": 1}
+                    size_hint: (None, None)
+                    size: img_go_back.size
+                    background_normal: ""
+                    background_color: (0, 0, 0, 0)
+                    on_press: root.previous_screen()
+                    canvas.before:
+                        Color:
+                            rgba: 217/255, 217/255, 217/255, 1
+                        Line:
+                            width: 1.5
+                            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
+                    Image:
+                        id: img_go_back
+                        size_hint: (None, None)
+                        size: (80, 80)
+                        source: "assets/img/arrow_left.png"
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+            BoxLayout:
+                id: content_right_column
+                orientation: "horizontal"
+                MDBoxLayout:
+                    orientation: "vertical"
+                    spacing: vertical_spacing_1
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: vertical_spacing_2
+    #                    md_bg_color: (0, 80/255, 0, 1)
+                        ElementAddPlan:
+                            ContainerAddPlan:
+                                GeneralLabel:
+                                    pos_hint: { "center_y": 0.5 }
+                                    text: "Планы"
+                                Widget:
+                                    size_hint_x: 0.1
+                                BtnAddPlan:
+                                    on_release: root.add_building_plan()
+                        BlueprintsScroll:
+                            BlueprintsGrid:
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "1-й этаж"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "2-й этаж"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "3-й этаж"
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: vertical_spacing_2
+    #                    md_bg_color: (0, 80/255, 0, 1)
+                        ElementAddPlan:
+                            ContainerAddPlan:
+                                GeneralLabel:
+                                    pos_hint: { "center_y": 0.5 }
+                                    text: "Фасады"
+                                Widget:
+                                    size_hint_x: 0.1
+                                BtnAddPlan
+                        BlueprintsScroll:
+                            BlueprintsGrid:
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "20-1/А"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "1/К-А"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "1-20/К"
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: vertical_spacing_2
+    #                    md_bg_color: (0, 80/255, 0, 1)
+                        ElementAddPlan:
+                            ContainerAddPlan:
+                                GeneralLabel:
+                                    pos_hint: { "center_y": 0.5 }
+                                    text: "Разрезы"
+                                Widget:
+                                    size_hint_x: 0.1
+                                BtnAddPlan
+                        BlueprintsScroll:
+                            BlueprintsGrid:
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "1-1"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "2-2"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "3-3"
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: vertical_spacing_2
+    #                    md_bg_color: (0, 80/255, 0, 1)
+                        ElementAddPlan:
+                            ContainerAddPlan:
+                                GeneralLabel:
+                                    pos_hint: { "center_y": 0.5 }
+                                    text: "Узлы"
+                                Widget:
+                                    size_hint_x: 0.1
+                                BtnAddPlan
+                        BlueprintsScroll:
+                            BlueprintsGrid:
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "Колонна 1"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "Балка 1"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "Колонна 2"
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: vertical_spacing_2
+    #                    md_bg_color: (0, 80/255, 0, 1)
+                        ElementAddPlan:
+                            ContainerAddPlan:
+                                GeneralLabel:
+                                    pos_hint: { "center_y": 0.5 }
+                                    text: "Геология"
+                                Widget:
+                                    size_hint_x: 0.1
+                                BtnAddPlan
+                        BlueprintsScroll:
+                            BlueprintsGrid:
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "Схема"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "СКВ 1"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "СКВ 2"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "СКВ 3"
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "СКВ 4"
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        spacing: vertical_spacing_2
+    #                    md_bg_color: (0, 80/255, 0, 1)
+                        ElementAddPlan:
+                            ContainerAddPlan:
+                                GeneralLabel:
+                                    pos_hint: { "center_y": 0.5 }
+                                    text: "Геодезия"
+                                Widget:
+                                    size_hint_x: 0.1
+                                BtnAddPlan
+                        BlueprintsScroll:
+                            BlueprintsGrid:
+                                BlueprintCard:
+                                    BlueprintTitle:
+                                        text: "500"
+                MDBoxLayout:
+                    id: edit_object_container
+                    size_hint_x: 0.8
+                    orientation: "vertical"
+    #                md_bg_color: (0, 0, 1, 1)
+                    MDBoxLayout:
+                        id: img_building_container
+                        pos_hint: { "right": 1 }
+                        size_hint_x: None
+                        size_hint_y: 0.8
+                        padding: [0, dp(30), 0, dp(20)]
+    #                    md_bg_color: (120/255, 50/255, 0, 1)
+                        Image:
+                            id: img_building
+                            allow_stretch: True
+                            fit_mode: "cover"
+                            source: "assets/img/building/building1.jpg"

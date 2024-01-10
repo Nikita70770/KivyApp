@@ -35,11 +35,6 @@ class AddObject(BoxLayout):
 
         self.fill_data_input_form(data)
 
-        print(f"close_popup_callback = {self.close_popup_callback}")
-        print(f"edit_img_callback = {self.edit_img_callback}")
-        # print(f"data object eeeeeeee = {data}")
-        # print(f"data add object = {data}")
-
     def init_popup(self, dt):
         self.set_style_popup()
         self.manager = FileManager()
