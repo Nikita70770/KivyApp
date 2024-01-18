@@ -38,17 +38,17 @@ class EditBuildingCards(Screen):
             img_building.source = path_file
 
     def add_building_plan(self):
-        self.next_screen()
+        self.open_building_schematic_screen()
 
-    def next_screen(self):
+    # Переход на страницу с чертежами сооружения
+    def open_building_schematic_screen(self):
         building_schematic_screen = BuildingSchematic()
         self.manager.transition = SlideTransition(direction="left")
         self.manager.add_widget(building_schematic_screen)
         self.manager.current = "building_schematic"
 
-    def previous_screen(self):
-        # print(f"manager 2 screen = {self.manager}")
-
+    # Переход на страницу с карточками сооружений
+    def open_card_screen(self):
         self.manager.transition = SlideTransition(direction="right")
         self.manager.current = "building_cards"
         self.manager.remove_widget(self)

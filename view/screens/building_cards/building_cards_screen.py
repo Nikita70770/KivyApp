@@ -47,7 +47,7 @@ class BuildingCards(Screen):
             self.arrIndex[1] = self.sizeData
         for i in range(self.arrIndex[1]):
             # print(i)
-            self.ids["gridlayout_cards"].add_widget(CardObject((i + 1), self.next_screen))
+            self.ids["gridlayout_cards"].add_widget(CardObject((i + 1), self.open_card_editing_screen))
         if self.sizeData <= 2:
             for j in range(self.sizeData, 3):
                 self.ids["gridlayout_cards"].add_widget(Widget(size_hint=(0.23, 1)))
@@ -66,7 +66,7 @@ class BuildingCards(Screen):
             self.arrIndex[1] += 6
         for i in range(self.arrIndex[0], self.arrIndex[1]):
             print(i)
-            self.ids["gridlayout_cards"].add_widget(CardObject((i + 1), self.next_screen))
+            self.ids["gridlayout_cards"].add_widget(CardObject((i + 1), self.open_card_editing_screen))
 
         if diff <= 2:
             # print(f"self.arrIndex[1] = {self.arrIndex[1]}")
@@ -138,7 +138,8 @@ class BuildingCards(Screen):
             )
         self.ids["hide_area_layout"].add_widget(widget)
 
-    def next_screen(self, object_data):
+    # Переход на страницу редактирования карточки
+    def open_card_editing_screen(self, object_data):
         # print(f"manager 1 screen = {self.manager}")
 
         screen = EditBuildingCards(object_data)

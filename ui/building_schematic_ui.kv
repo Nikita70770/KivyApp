@@ -1,3 +1,5 @@
+#:import HoverItem view.screens.building_schematic.building_schematic_screen
+
 ######################################################### Переменные ################################################
 # Пробелы
 #:set main_spacing 40
@@ -7,6 +9,56 @@
 #:set Montserrat_Regular "assets/fonts/Montserrat-Regular.ttf"
 #:set Montserrat_Medium "assets/fonts/Montserrat-Medium.ttf"
 ###########################################################################################################
+
+############################################# Динамические классы #############################################
+
+<Icon@Image>:
+    center_x: self.parent.center_x
+    center_y: self.parent.center_y
+    size_hint: (None, None)
+
+<BtnElement@Button>:
+    size_hint_x: None
+    width: self.texture_size[0]
+    color: (0, 0, 0, 1)
+    background_normal: ""
+    background_color: (0, 0, 0, 0)
+
+<ToolbarItem@Button>:
+    size_hint: (None, None)
+    color: (0, 0, 0, 1)
+    background_normal: ""
+    background_color: (0, 0, 0, 0)
+
+<BtnBorder@Button>:
+    size_hint_x: None
+    width: self.texture_size[0]
+    color: (0, 0, 0, 1)
+    background_normal: ""
+    background_color: (0, 0, 0, 0)
+    canvas.before:
+        Color:
+            rgba: (217/255, 217/255, 217/255, 1)
+        Line:
+            width: 1.15
+            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+
+<ElementsBorderContainer@MDBoxLayout>:
+    orientation: "horizontal"
+    size_hint_x: None
+    adaptive_width: True
+    canvas.before:
+        Color:
+            rgba: (217/255, 217/255, 217/255, 1)
+        Line:
+            width: 1.15
+            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+
+<ElementsContainer@MDBoxLayout>:
+    orientation: "horizontal"
+    size_hint_x: None
+    adaptive_width: True
+###############################################################################################################
 
 <BuildingSchematic>:
     name: "building_schematic"
@@ -34,46 +86,24 @@
                     size: self.texture_size
                     source: "assets/img/logo.png"
                 RelativeLayout:
-                    MDBoxLayout:
+                    ElementsContainer:
                         id: header_content_right
-                        orientation: "horizontal"
                         pos_hint: { "left": 0 }
-                        size_hint_x: None
-                        adaptive_width: True
-                        spacing: 10
-                        Button:
-                            size_hint_x: None
-                            width: self.texture_size[0]
+                        spacing: 15
+                        BtnBorder:
                             padding: [dp(20), 0]
                             text: "Создать слой"
-                            color: (0, 0, 0, 1)
-                            background_normal: ""
-                            background_color: (0, 0, 0, 0)
-                            canvas.before:
-                                Color:
-                                    rgba: (217/255, 217/255, 217/255, 1)
-                                Line:
-                                    width: 1.15
-                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
                         MDSeparator:
                             orientation: "vertical"
-                            width: 10
-                        MDBoxLayout:
-                            orientation: "horizontal"
-                            size_hint_x: None
-                            adaptive_width: True
-                            canvas.before:
-                                Color:
-                                    rgba: (217/255, 217/255, 217/255, 1)
-                                Line:
-                                    width: 1.15
-                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
-                            MDBoxLayout:
-                                orientation: "horizontal"
-                                size_hint_x: None
-                                adaptive_width: True
+                            width: 15
+                            md_bg_color: (0, 0, 0, 0)
+                        # Выбор листа
+                        ElementsBorderContainer:
+                            ElementsContainer:
+                                id: select_sheet_container
                                 padding: [dp(20), 0]
                                 Label:
+                                    id: labl_select_sheet
                                     size_hint_x: None
                                     width: self.texture_size[0]
                                     text: "Выбор листа"
@@ -82,140 +112,46 @@
                                 orientation: "vertical"
                                 width: 2
                                 md_bg_color: (217/255, 217/255, 217/255, 1)
-                            MDBoxLayout:
-                                orientation: "horizontal"
-                                size_hint_x: None
-                                adaptive_width: True
+                            ElementsContainer:
                                 padding: [dp(12), 0]
-                                Button:
+                                BtnElement:
                                     pos_hint: { "center_y": 0.5 }
-                                    size_hint_x: None
                                     width: img_dropdown_menu.size[0]
-                                    padding: [dp(10), 0]
-                                    background_normal: ""
-                                    background_color: (0, 0, 0, 0)
-                                    Image:
+                                    on_release: root.open_dropdown_menu("select_sheet_container")
+                                    Icon:
                                         id: img_dropdown_menu
-                                        center_x: self.parent.center_x
-                                        center_y: self.parent.center_y
-                                        size_hint: (None, None)
                                         size: self.texture_size
                                         source: "assets/img/dropdown_menu.png"
-                        MDBoxLayout:
-                            orientation: "horizontal"
-                            size_hint_x: None
-                            adaptive_width: True
+                        ElementsBorderContainer:
                             padding: [dp(8), 0]
-                            canvas.before:
-                                Color:
-                                    rgba: (217/255, 217/255, 217/255, 1)
-                                Line:
-                                    width: 1.15
-                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
-                            Button:
-                                size_hint_x: None
-                                width: img_layers.size[0]
-                                background_normal: ""
-                                background_color: (0, 0, 0, 0)
-                                Image:
-                                    id: img_layers
-                                    center_x: self.parent.center_x
-                                    center_y: self.parent.center_y
-                                    size_hint: (None, None)
+                            BtnElement:
+                                width: img_sheets.size[0]
+                                Icon:
+                                    id: img_sheets
                                     size: self.texture_size
-                                    source: "assets/img/layers.png"
-                    MDBoxLayout:
-                        orientation: "horizontal"
+                                    source: "assets/img/sheets.png"
+                    ElementsContainer:
                         pos_hint: { "right": 1 }
-                        size_hint_x: None
-                        adaptive_width: True
-                        spacing: 10
-                        Button:
-                            size_hint_x: None
-                            width: self.texture_size[0]
+                        spacing: 15
+                        BtnBorder:
                             padding: [dp(15), 0]
-                            color: (0, 0, 0, 1)
-                            background_normal: ""
-                            background_color: (0, 0, 0, 0)
                             text: "Планы"
-                            canvas.before:
-                                Color:
-                                    rgba: (217/255, 217/255, 217/255, 1)
-                                Line:
-                                    width: 1.15
-                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
-                        Button:
-                            size_hint_x: None
-                            width: self.texture_size[0]
+                        BtnBorder:
                             padding: [dp(15), 0]
-                            color: (0, 0, 0, 1)
-                            background_normal: ""
-                            background_color: (0, 0, 0, 0)
                             text: "Разрезы"
-                            canvas.before:
-                                Color:
-                                    rgba: (217/255, 217/255, 217/255, 1)
-                                Line:
-                                    width: 1.15
-                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
-                        Button:
-                            size_hint_x: None
-                            width: self.texture_size[0]
+                        BtnBorder:
                             padding: [dp(15), 0]
-                            color: (0, 0, 0, 1)
-                            background_normal: ""
-                            background_color: (0, 0, 0, 0)
                             text: "Узлы"
-                            canvas.before:
-                                Color:
-                                    rgba: (217/255, 217/255, 217/255, 1)
-                                Line:
-                                    width: 1.15
-                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
-                        Button:
-                            size_hint_x: None
-                            width: self.texture_size[0]
+                        BtnBorder:
                             padding: [dp(15), 0]
-                            color: (0, 0, 0, 1)
-                            background_normal: ""
-                            background_color: (0, 0, 0, 0)
                             text: "Геология"
-                            canvas.before:
-                                Color:
-                                    rgba: (217/255, 217/255, 217/255, 1)
-                                Line:
-                                    width: 1.15
-                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
-                        Button:
-                            size_hint_x: None
-                            width: self.texture_size[0]
+                        BtnBorder:
                             padding: [dp(15), 0]
-                            color: (0, 0, 0, 1)
-                            background_normal: ""
-                            background_color: (0, 0, 0, 0)
                             text: "Геодезия"
-                            canvas.before:
-                                Color:
-                                    rgba: (217/255, 217/255, 217/255, 1)
-                                Line:
-                                    width: 1.15
-                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
-                        Button:
-                            size_hint_x: None
-                            width: self.texture_size[0]
+                        BtnBorder:
                             padding: [dp(15), 0]
-                            color: (0, 0, 0, 1)
-                            background_normal: ""
-                            background_color: (0, 0, 0, 0)
                             text: "Фото"
-                            canvas.before:
-                                Color:
-                                    rgba: (217/255, 217/255, 217/255, 1)
-                                Line:
-                                    width: 1.15
-                                    rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
-
-        # ...
+        # Главное содержимое страницы
         BoxLayout:
             id: content
             orientation: "horizontal"
@@ -225,26 +161,162 @@
                 orientation: "lr-tb"
                 size_hint_x: None
                 adaptive_width: True
-                Button:
+                BtnBorder:
                     id: btn_go_back
                     pos_hint: {"center_x": 0.5, "y": 1}
-                    size_hint: (None, None)
+                    size_hint_y: None
                     size: img_go_back.size
-                    background_normal: ""
-                    background_color: (0, 0, 0, 0)
-#                    on_press: root.previous_screen()
-                    canvas.before:
-                        Color:
-                            rgba: 217/255, 217/255, 217/255, 1
-                        Line:
-                            width: 1.5
-                            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], 6)
-                    Image:
+                    on_release: root.open_card_screen()
+                    Icon:
                         id: img_go_back
-                        size_hint: (None, None)
                         size: (80, 80)
                         source: "assets/img/arrow_left.png"
+            BoxLayout:
+                orientation: "horizontal"
+#                canvas.before:
+#                    Color:
+#                        rgba: 0, 0, 1, 1
+#                    Rectangle:
+#                        size: self.size
+#                        pos: self.pos
+                canvas.before:
+                    Color:
+                        rgba: (217/255, 217/255, 217/255, 1)
+                    Line:
+                        width: 1.15
+                        rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
+#                    Color:
+#                        rgba: (0, 1, 0, 1)
+#                    Rectangle:
+#                        pos: self.pos
+#                        size: self.size
+                # Слои
+                ElementsContainer:
+                    pos_hint: { "x": 0, "top": 1 }
+                    size_hint_y: None
+                    adaptive_height: True
+                    padding: [dp(12)]
+                    canvas.before:
+                        Color:
+                            rgba: (217/255, 217/255, 217/255, 1)
+                        Line:
+                            width: 1.15
+                            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3), 0, dp(3), 0)
+                    BtnElement:
+                        size_hint: (None, None)
+                        size: img_layers.size
+                        Icon:
+                            id: img_layers
+                            size: self.texture_size
+                            source: "assets/img/layers.png"
+                # План
+#                MDSeparator:
+                MDBoxLayout:
+                    orientation: "vertical"
+                    size_hint: (0.7, 0.99)
+                    Image:
                         center_x: self.parent.center_x
                         center_y: self.parent.center_y
-            MDRelativeLayout:
-                md_bg_color: (150/255, 150/255, 150/255, 1)
+                        fit_mode: "contain"
+                        source: "assets/img/plan.png"
+                # Панель инструментов
+                MDBoxLayout:
+                    orientation: "vertical"
+                    pos_hint: { "right": 1, "center_y": 0.68 }
+                    size_hint: (None, None)
+                    adaptive_size: True
+                    canvas.before:
+                        Color:
+                            rgba: (217/255, 217/255, 217/255, 1)
+                        Line:
+                            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3), 0, 0, dp(3))
+                    ToolbarItem:
+                        size: (icon_tool.width * 2.5, icon_tool.height * 2.5)
+                        Icon:
+                            id: icon_tool
+                            size: self.texture_size
+                            source: "assets/img/toolbar/arrow_left.png"
+                    MDSeparator:
+                        orientation: "horizontal"
+                        height: "0.5dp"
+                        md_bg_color: (217/255, 217/255, 217/255, 1)
+                    ToolbarItem:
+                        size: (icon_tool.width * 2.5, icon_tool.height * 2.5)
+                        Icon:
+                            id: icon_tool
+                            size: self.texture_size
+                            source: "assets/img/toolbar/arrow_right.png"
+                    MDSeparator:
+                        orientation: "horizontal"
+                        height: "0.5dp"
+                        md_bg_color: (217/255, 217/255, 217/255, 1)
+                    ToolbarItem:
+                        size: (icon_tool.width * 2.5, icon_tool.height * 2.5)
+                        Icon:
+                            id: icon_tool
+                            size: self.texture_size
+                            source: "assets/img/toolbar/bezier_curve.png"
+                    MDSeparator:
+                        orientation: "horizontal"
+                        height: "0.5dp"
+                        md_bg_color: (217/255, 217/255, 217/255, 1)
+                    ToolbarItem:
+                        size: (icon_tool.width * 2.5, icon_tool.height * 2.5)
+                        Icon:
+                            id: icon_tool
+                            size: self.texture_size
+                            source: "assets/img/toolbar/ellipse.png"
+                    MDSeparator:
+                        orientation: "horizontal"
+                        height: "0.5dp"
+                        md_bg_color: (217/255, 217/255, 217/255, 1)
+                    ToolbarItem:
+                        size: (icon_tool.width * 2.5, icon_tool.height * 2.5)
+                        Icon:
+                            id: icon_tool
+                            size: self.texture_size
+                            source: "assets/img/toolbar/line.png"
+                    MDSeparator:
+                        orientation: "horizontal"
+                        height: "0.5dp"
+                        md_bg_color: (217/255, 217/255, 217/255, 1)
+                    ToolbarItem:
+                        size: (icon_tool.width * 2.5, icon_tool.height * 2.5)
+                        Icon:
+                            id: icon_tool
+                            size: self.texture_size
+                            source: "assets/img/toolbar/ph_eraser_thin.png"
+                    MDSeparator:
+                        orientation: "horizontal"
+                        height: "0.5dp"
+                        md_bg_color: (217/255, 217/255, 217/255, 1)
+                    ToolbarItem:
+                        size: (icon_tool.width * 2.5, icon_tool.height * 2.5)
+                        Icon:
+                            id: icon_tool
+                            size: self.texture_size
+                            source: "assets/img/toolbar/rectangle.png"
+                    MDSeparator:
+                        orientation: "horizontal"
+                        height: "0.5dp"
+                        md_bg_color: (217/255, 217/255, 217/255, 1)
+                    ToolbarItem:
+                        size: (icon_tool.width * 2.5, icon_tool.height * 2.5)
+                        Icon:
+                            id: icon_tool
+                            size: self.texture_size
+                            source: "assets/img/toolbar/type.png"
+                    MDSeparator:
+                        orientation: "horizontal"
+                        height: "0.5dp"
+                        md_bg_color: (217/255, 217/255, 217/255, 1)
+                    ToolbarItem:
+                        size: (icon_tool.width * 2.5, icon_tool.height * 2.5)
+                        Icon:
+                            id: icon_tool
+                            size: self.texture_size
+                            source: "assets/img/toolbar/vector.png"
+                    MDSeparator:
+                        orientation: "horizontal"
+                        height: "0.5dp"
+                        md_bg_color: (217/255, 217/255, 217/255, 1)
