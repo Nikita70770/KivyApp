@@ -1,5 +1,6 @@
+############################################# Импорт файлов #############################################
 #:import HoverItem view.screens.building_schematic.building_schematic_screen
-
+#:import DrawCanvasWidget utils.paint
 ######################################################### Переменные ################################################
 # Пробелы
 #:set main_spacing 40
@@ -172,7 +173,12 @@
                         size: (80, 80)
                         source: "assets/img/arrow_left.png"
             BoxLayout:
+#                pos_hint: { "left": 0, "top": 1 }
                 orientation: "horizontal"
+                spacing: dp(150)
+#            RelativeLayout:
+#                center_x: self.parent.center_x
+#                center_y: self.parent.center_y
 #                canvas.before:
 #                    Color:
 #                        rgba: 0, 0, 1, 1
@@ -185,16 +191,17 @@
                     Line:
                         width: 1.15
                         rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3))
-#                    Color:
-#                        rgba: (0, 1, 0, 1)
-#                    Rectangle:
-#                        pos: self.pos
-#                        size: self.size
+    #                    Color:
+    #                        rgba: (0, 1, 0, 1)
+    #                    Rectangle:
+    #                        pos: self.pos
+    #                        size: self.size
                 # Слои
-                ElementsContainer:
-                    pos_hint: { "x": 0, "top": 1 }
-                    size_hint_y: None
-                    adaptive_height: True
+                MDBoxLayout:
+                    orientation: "vertical"
+                    pos_hint: { "left": 0, "top": 1 }
+                    size_hint: (None, None)
+                    adaptive_size: True
                     padding: [dp(12)]
                     canvas.before:
                         Color:
@@ -203,22 +210,49 @@
                             width: 1.15
                             rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3), 0, dp(3), 0)
                     BtnElement:
+                        id: btn_layers
                         size_hint: (None, None)
                         size: img_layers.size
+                        on_release: root.layers_press(["btn_layers", "img_layers"])
                         Icon:
                             id: img_layers
                             size: self.texture_size
-                            source: "assets/img/layers.png"
+                            source: "assets/img/layers_black.png"
+    #                ElementsContainer:
+    #                    pos_hint: { "left": 0, "top": 1 }
+    #                    size_hint_y: None
+    #                    adaptive_height: True
+    #                    padding: [dp(12)]
+    #                    canvas.before:
+    #                        Color:
+    #                            rgba: (217/255, 217/255, 217/255, 1)
+    #                        Line:
+    #                            width: 1.15
+    #                            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], dp(3), 0, dp(3), 0)
+    #                    BtnElement:
+    #                        id: btn_layers
+    #                        size_hint: (None, None)
+    #                        size: img_layers.size
+    #                        on_release: root.layers_press(["btn_layers", "img_layers"])
+    #                        Icon:
+    #                            id: img_layers
+    #                            size: self.texture_size
+    #                            source: "assets/img/layers_black.png"
                 # План
-#                MDSeparator:
                 MDBoxLayout:
+#                    id: plan_building_layout
                     orientation: "vertical"
-                    size_hint: (0.7, 0.99)
-                    Image:
-                        center_x: self.parent.center_x
-                        center_y: self.parent.center_y
-                        fit_mode: "contain"
-                        source: "assets/img/plan.png"
+                    pos_hint: { "center_y": 0.5 }
+                    size_hint_y: 0.97
+                    FloatLayout:
+                        id: plan_building_layout
+                        pos: self.pos
+                        size: self.size
+                        Label:
+                            pos_hint: { "center_x": 0.5, "center_y": 0.5 }
+                            text: "Выберите лист"
+                            font_size: sp(16)
+                            color: (0, 0, 0, 1)
                 # Панель инструментов
                 MDBoxLayout:
                     orientation: "vertical"

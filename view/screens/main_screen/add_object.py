@@ -211,6 +211,3 @@ class AddObject(BoxLayout):
     def update_rounded_rect(self, rounded_rect, button):
         rounded_rect.pos = button.pos
         rounded_rect.size = button.size
-
-    def scroll_direction(self, scroll_x):
-        print(f"scroll_x = {scroll_x}")
