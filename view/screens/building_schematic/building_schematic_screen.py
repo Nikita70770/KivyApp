@@ -16,7 +16,7 @@ from kivy.graphics import (
     Rectangle, RoundedRectangle
 )
 
-from utils.paint import DrawCanvasWidget
+from utils.paint import DrawCanvasWidget, ResizablePlanBuilding
 
 Builder.load_file(os.getcwd() + "/ui/building_schematic_ui.kv")
 
@@ -42,14 +42,17 @@ class BuildingSchematic(Screen):
         super(BuildingSchematic, self).__init__(**kwargs)
 
         self.plan_building_layout = None
+        # self.stencil = None
         self.dropdown_menu = None
         self.draw_canvas = None
-
+        self.resizable_plan = None
         self.init_dropdown_menu()
 
-    def init_draw_canvas(self):
-        self.draw_canvas = DrawCanvasWidget(self.plan_building_layout)
-        self.plan_building_layout.add_widget(self.draw_canvas)
+    def init_draw_canvas(self, stencil):
+        # self.draw_canvas = DrawCanvasWidget(self.plan_building_layout)
+        self.resizable_plan = ResizablePlanBuilding(stencil)
+        # self.plan_building_layout.add_widget(self.draw_canvas)
+        stencil.add_widget(self.resizable_plan)
 
     def init_dropdown_menu(self):
         self.dropdown_menu = DropDown()
@@ -97,21 +100,25 @@ class BuildingSchematic(Screen):
         return item
 
     def item_select_callback(self, index, dropdown_menu, title):
-        self.plan_building_layout = self.ids["plan_building_layout"]
-        element = self.plan_building_layout.children[0]
+        print(f"Stencil vals:\npos = {self.ids['stencil'].pos}, size = {self.ids['stencil'].size}")
+        # self.stencil = self.ids["stencil_view"]
+        # self.plan_building_layout = self.ids["plan_building_layout"]
+        # element = self.plan_building_layout.children[0]
 
-        labl_select_sheet = self.ids["labl_select_sheet"]
-        labl_select_sheet.text = title
-        labl_select_sheet.color = (215 / 255, 25 / 255, 32 / 255, 1)
+        # labl_select_sheet = self.ids["labl_select_sheet"]
+        # labl_select_sheet.text = title
+        # labl_select_sheet.color = (215 / 255, 25 / 255, 32 / 255, 1)
+        #
+        # if isinstance(element, Label):
+        #     self.plan_building_layout.remove_widget(element)
 
-        if isinstance(element, Label):
-            self.plan_building_layout.remove_widget(element)
+        # if self.draw_canvas is None:
+        if self.resizable_plan is None:
+            self.init_draw_canvas(self.ids["stencil"])
 
-        if self.draw_canvas is None:
-            self.init_draw_canvas()
-
-        self.draw_canvas.clear_canvas()
-        self.draw_canvas.set_building_plan(self.plans_data[index])
+        # self.draw_canvas.clear_canvas()
+        # self.draw_canvas.set_building_plan(self.plans_data[index])
+        self.resizable_plan.set_building_plan(self.plans_data[index])
         dropdown_menu.dismiss()
 
     def layers_press(self, list_id):
