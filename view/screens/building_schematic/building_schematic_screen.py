@@ -2,6 +2,7 @@ import os
 
 import kivy.metrics
 from kivy.clock import Clock
+from kivy.graphics.transformation import Matrix
 from kivy.lang.builder import Builder
 from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
@@ -16,7 +17,7 @@ from kivy.graphics import (
     Rectangle, RoundedRectangle
 )
 
-from utils.paint import DrawCanvasWidget, ResizablePlanBuilding
+from utils.paint import ResizablePlanBuilding, ResizableLayout
 
 Builder.load_file(os.getcwd() + "/ui/building_schematic_ui.kv")
 
@@ -43,16 +44,18 @@ class BuildingSchematic(Screen):
 
         self.plan_building_layout = None
         # self.stencil = None
+        # self.scatter_layout = self.ids["scatter_layout"]
         self.dropdown_menu = None
         self.draw_canvas = None
         self.resizable_plan = None
         self.init_dropdown_menu()
 
-    def init_draw_canvas(self, stencil):
-        # self.draw_canvas = DrawCanvasWidget(self.plan_building_layout)
-        self.resizable_plan = ResizablePlanBuilding(stencil)
+    def init_draw_canvas(self, scroll_view):
+        # self.resizable_plan = ResizablePlanBuilding(scatter_layout)
+        self.resizable_plan = ResizableLayout(scroll_view)
+        # self.resizable_plan = ScrollZoomImage(scatter_layout)
         # self.plan_building_layout.add_widget(self.draw_canvas)
-        stencil.add_widget(self.resizable_plan)
+        scroll_view.add_widget(self.resizable_plan)
 
     def init_dropdown_menu(self):
         self.dropdown_menu = DropDown()
@@ -100,7 +103,7 @@ class BuildingSchematic(Screen):
         return item
 
     def item_select_callback(self, index, dropdown_menu, title):
-        print(f"Stencil vals:\npos = {self.ids['stencil'].pos}, size = {self.ids['stencil'].size}")
+        # print(f"Stencil vals:\npos = {self.ids['stencil'].pos}, size = {self.ids['stencil'].size}")
         # self.stencil = self.ids["stencil_view"]
         # self.plan_building_layout = self.ids["plan_building_layout"]
         # element = self.plan_building_layout.children[0]
@@ -114,7 +117,11 @@ class BuildingSchematic(Screen):
 
         # if self.draw_canvas is None:
         if self.resizable_plan is None:
-            self.init_draw_canvas(self.ids["stencil"])
+            # self.init_draw_canvas(self.ids["stencil"])
+            # print(f"Scroll:\npos = {self.ids['scroll_view'].pos}, size = {self.ids['scroll_view'].size}")
+            # self.init_draw_canvas(self.ids["scatter_layout"])
+            # Clock.schedule_once(self.method, 3)
+            self.init_draw_canvas(self.ids["scroll_view"])
 
         # self.draw_canvas.clear_canvas()
         # self.draw_canvas.set_building_plan(self.plans_data[index])
@@ -139,3 +146,4 @@ class BuildingSchematic(Screen):
         self.manager.transition = SlideTransition(direction="right")
         self.manager.current = "building_cards"
         self.manager.remove_widget(self)
+

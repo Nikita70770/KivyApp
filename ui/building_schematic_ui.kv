@@ -1,5 +1,6 @@
 ############################################# Импорт файлов #############################################
 #:import HoverItem view.screens.building_schematic.building_schematic_screen
+#:import ScrollEffect kivy.effects.scroll.ScrollEffect
 #:import DrawCanvasWidget utils.paint
 ######################################################### Переменные ################################################
 # Пробелы
@@ -241,8 +242,8 @@
                 # План
                 RelativeLayout:
                     pos_hint: { "center_y": 0.5 }
-#                    size_hint_y: 0.97
-                    size_hint_y: 0.8
+                    size_hint_y: 0.97
+#                    size_hint_y: 0.8
                     StencilView:
                         id: stencil
                         canvas.before:
@@ -251,6 +252,32 @@
                             Rectangle:
                                 pos: self.pos
                                 size: self.size
+                        ScrollView:
+                            id: scroll_view
+                            size_hint: (None, None)
+                            size: self.parent.size
+                            do_scroll_x: False
+                            do_scroll_y: False
+#                            size: (1366, 768)
+                            effect_cls: ScrollEffect
+                            canvas.before:
+                                Color:
+                                    rgba: (0, 0, 1, 1)
+                                Rectangle:
+                                    pos: self.pos
+                                    size: self.size
+#                            ScatterLayout:
+#                                id: scatter_layout
+##                                pos: self.pos
+#                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+#                                size_hint: (None, None)
+##                                size: 1440 * self.scale, 900 * self.scale
+#                                size: (self.parent.width * self.scale, self.parent.height * self.scale)
+##                                size: self.parent.size
+##                                size: (self.parent.width * self.scale, self.parent.height * self.scale)
+#                                do_translation: False
+#                                do_rotation: False
+#                                do_scale: True
                 # Панель инструментов
                 MDBoxLayout:
                     orientation: "vertical"
